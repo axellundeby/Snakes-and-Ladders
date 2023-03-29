@@ -1,18 +1,24 @@
 package no.uib.inf101.sem2;
 
-import no.uib.inf101.sem2.view.SampleView;
+import no.uib.inf101.sem2.model.Board;
+import no.uib.inf101.sem2.model.Playermodel;
+import no.uib.inf101.sem2.view.GridView;
 
 import javax.swing.JFrame;
 
 public class Main {
+  public static final String WINDOW_TITLE = "INF101 Snake and Ladders";
+  
   public static void main(String[] args) {
-    SampleView view = new SampleView();
-
-    JFrame frame = new JFrame();
+    Board board = new Board(10,10);   
+    Playermodel model = new Playermodel(board);
+  
+  
+    GridView view = new GridView(model);
+    JFrame frame = new JFrame(WINDOW_TITLE);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setTitle("INF101");
     frame.setContentPane(view);
     frame.pack();
     frame.setVisible(true);
-  }
+  }  
 }
