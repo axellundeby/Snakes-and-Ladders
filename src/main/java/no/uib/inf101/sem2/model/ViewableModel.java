@@ -3,6 +3,7 @@ package no.uib.inf101.sem2.model;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
+
 public interface ViewableModel{
     
     /**
@@ -19,17 +20,12 @@ public interface ViewableModel{
     */
     Iterable<GridCell<Character>> getTilesOnBoard();    
 
-    /**
-     * 
-     * @return the current game state
-     */
-    GameState getGamestate();
-
+   
     /**
      * this method returns a score 
      * @return a score 
      */
     int score();
 
-
+    DiceState getDiceState();
 }

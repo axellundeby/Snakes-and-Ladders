@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
+import no.uib.inf101.sem2.model.DiceState;
 import no.uib.inf101.sem2.model.ViewableModel;
 
 import java.awt.Graphics;
@@ -15,13 +16,15 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Dimension;
 
+
 public class GridView extends JPanel {
     
-    private final  int xMargin = 15;
+    //private final  int xMargin = 15;
     private final  int yMargin = 40;
     private final  int InnMargin = 2;
     private final ViewableModel view;
     private final ColorTheme colorTheme;
+    private final int diceMargin = 100;
 
     public GridView(ViewableModel view) {
         this.view = view;
@@ -37,6 +40,7 @@ public class GridView extends JPanel {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
       drawGame(g2);
+      drawDice(g2);
     }
 
     /**
@@ -44,8 +48,8 @@ public class GridView extends JPanel {
      * @param g
      */
     private void drawGame(Graphics2D g) {
-      BufferedImage image = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
-      Inf101Graphics.drawCenteredImage(g, image, this.getWidth()/2, this.getHeight()/2 - yMargin - 50, getWidth()/612);
+      BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
+      Inf101Graphics.drawCenteredImage(g, boardImage, this.getWidth()/2, this.getHeight()/2 - yMargin - 50, this.getWidth()/612 );
       
       Rectangle2D Box = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight() - yMargin * 2 - 80);
       GridDimension dimension = view.getDimension();
@@ -56,12 +60,24 @@ public class GridView extends JPanel {
       
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
       
-
-
-      Inf101Graphics.drawCenteredString(g, "Axels StigeSpill  ", xMargin,450, this.getWidth() - xMargin * 2, 450);
+      Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), 410, this.getWidth() - getWidth() * 2, 450);
 
       //skal lage terning, med switch 
       } 
+    
+      private void drawDice(Graphics2D g) {
+        if (view.getDiceState() == DiceState.ROLE) {
+          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
+          Inf101Graphics.drawCenteredImage(g, diceImage, this.getWidth()/2, this.getHeight()- diceMargin, 0.3);
+        }
+
+        // if(view.getDiceState() == "one"){
+        //   //bilde til 1
+        // }
+      }
+
+
+    
     /**
      * draws the cells
      * @param g

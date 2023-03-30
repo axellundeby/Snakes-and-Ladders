@@ -37,7 +37,7 @@ public class DefaultColorTheme implements ColorTheme{
     
     @Override
     public Font getFont() {
-        return new Font("Serif", Font.BOLD, 30);
+        return new Font("Serif", Font.BOLD, 15);
     }
 
 

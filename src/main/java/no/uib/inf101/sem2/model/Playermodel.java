@@ -5,7 +5,8 @@ import no.uib.inf101.sem2.grid.GridDimension;
 
 public class Playermodel implements ViewableModel{
     Board board;
-    GameState gameState = GameState.ACTIVE_GAME;
+    DiceState diceState = DiceState.ROLE;
+   
 
     public Playermodel(Board board){
         this.board = board;
@@ -23,14 +24,12 @@ public class Playermodel implements ViewableModel{
 
 
     @Override
-    public GameState getGamestate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGamestate'");
+    public DiceState getDiceState() {
+        return diceState;
     }
     @Override
     public int score() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'score'");
     }
-
 }
