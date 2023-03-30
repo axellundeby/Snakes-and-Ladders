@@ -24,14 +24,13 @@ public class GridView extends JPanel {
     private final  int InnMargin = 2;
     private final ViewableModel view;
     private final ColorTheme colorTheme;
-    private final int diceMargin = 100;
 
     public GridView(ViewableModel view) {
         this.view = view;
         this.colorTheme = new DefaultColorTheme();
         
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(612, 800));
+        this.setPreferredSize(new Dimension(635, 800));
         this.setBackground(getBackground());
     }
 
@@ -48,36 +47,41 @@ public class GridView extends JPanel {
      * @param g
      */
     private void drawGame(Graphics2D g) {
+      Rectangle2D boardBox = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight() - yMargin * 2 - 80);
       BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
-      Inf101Graphics.drawCenteredImage(g, boardImage, this.getWidth()/2, this.getHeight()/2 - yMargin - 50, this.getWidth()/612 );
+      double scale = (boardBox.getHeight() - 1)/boardImage.getHeight();
+      Inf101Graphics.drawImage(g, boardImage, boardBox.getX() + 1, boardBox.getY() + 1, scale);
       
-      Rectangle2D Box = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight() - yMargin * 2 - 80);
+    
       GridDimension dimension = view.getDimension();
-      CellPositionToPixelConverter converter = new CellPositionToPixelConverter(Box, dimension, InnMargin);
-      
+      CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
       g.setFont(colorTheme.getFont());
       g.setColor(colorTheme.getFontColor());
-      
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
       
-      Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), 410, this.getWidth() - getWidth() * 2, 450);
-
-      //skal lage terning, med switch 
+      Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), 420, this.getWidth() - getWidth() * 2, 450);
       } 
     
       private void drawDice(Graphics2D g) {
+     
+        Rectangle2D diceRect = this.getRectangle();
+        Color color = colorTheme.getBackgroundColor();
+        g.setColor(color);
+        g.draw(diceRect);
+
         if (view.getDiceState() == DiceState.ROLE) {
           BufferedImage diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
-          Inf101Graphics.drawCenteredImage(g, diceImage, this.getWidth()/2, this.getHeight()- diceMargin, 0.3);
+          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
+          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
+
+
+          //Inf101Graphics.drawCenteredImage(g, diceImage, this.getWidth()/2, this.getHeight()- diceMargin, 0.3);
         }
-
-        // if(view.getDiceState() == "one"){
-        //   //bilde til 1
-        // }
       }
-
-
-    
+      private Rectangle2D getRectangle() {
+        return new Rectangle2D.Double(getWidth()/2 - 50 , getHeight() - 140 , 120, 120);
+      }
+  
     /**
      * draws the cells
      * @param g

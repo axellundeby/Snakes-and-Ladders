@@ -18,9 +18,11 @@ public class ControllerMouseClicked implements MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     // når vi trykker på terning endres ternign, og vi får et tall mellom 1 og 6, kall på metoden i 
+    //when the dice 
     this.model.setX(e.getX());
     this.model.setY(e.getY());
     this.view.repaint();
+    ((diceController) view).rollDice();
   }
 
   @Override public void mousePressed(MouseEvent e) { /* ignore */ }
