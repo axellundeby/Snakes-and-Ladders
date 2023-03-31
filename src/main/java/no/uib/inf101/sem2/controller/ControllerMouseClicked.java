@@ -3,11 +3,13 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import no.uib.inf101.sem2.model.Playermodel;
+
 public class ControllerMouseClicked implements MouseListener {
   private final diceController model;
   private final Component view;
 
-  public ControllerMouseClicked(diceController model, Component view) {
+  public ControllerMouseClicked(Playermodel model, Component view) {
     this.model = model;
     this.view = view;
 
@@ -17,17 +19,16 @@ public class ControllerMouseClicked implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    // når vi trykker på terning endres ternign, og vi får et tall mellom 1 og 6, kall på metoden i 
-    //when the dice 
-    this.model.setX(e.getX());
-    this.model.setY(e.getY());
-    this.view.repaint();
     ((diceController) view).rollDice();
   }
 
-  @Override public void mousePressed(MouseEvent e) { /* ignore */ }
+  @Override 
+public void mousePressed(MouseEvent e) { //når musen trykkes innenfor view.dice
+  /* ignore */ }
   @Override public void mouseReleased(MouseEvent e) { /* ignore */ }
-  @Override public void mouseEntered(MouseEvent e) { /* ignore */ }
+  @Override 
+  public void mouseEntered(MouseEvent e) { //når musen er innenfor view.dice
+    /* ignore */ }
   @Override public void mouseExited(MouseEvent e) { /* ignore */ }
 
 }

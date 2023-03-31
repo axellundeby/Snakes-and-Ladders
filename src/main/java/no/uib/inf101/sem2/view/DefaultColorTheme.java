@@ -50,7 +50,7 @@ public class DefaultColorTheme implements ColorTheme{
 
     @Override
     public Color getFontColor() {
-        return Color.yellow;
+        return Color.black;
     }
 
 
