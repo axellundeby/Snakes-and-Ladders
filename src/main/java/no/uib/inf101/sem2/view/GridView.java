@@ -72,10 +72,6 @@ public class GridView extends JPanel {
     
       private void drawDice(Graphics2D g) {
         Rectangle2D diceRect = this.getDiceRectangle();
-        Color color = colorTheme.getBackgroundColor();
-        g.setColor(color);
-        g.draw(diceRect);
-
         if (view.getDiceState() == DiceState.ROLE) {
           BufferedImage diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
           double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
@@ -84,8 +80,13 @@ public class GridView extends JPanel {
         }
       }
       private Rectangle2D getDiceRectangle() {
-        return new Rectangle2D.Double(getWidth()/2 - 50 , getHeight() - 200 , 115, 115);
-      }
+        double width = getWidth();
+        double height = getHeight();
+        double size = Math.min(width, height) * 0.2; // 20% of the smaller dimension
+        double x = (width - size) / 2;
+        double y = height - size - 50;
+        return new Rectangle2D.Double(x, y, size, size);
+    }
 
       private void setupMousePositionUpdater() {
         // Keep the mousePosition variable up to date
