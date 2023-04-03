@@ -2,8 +2,9 @@ package no.uib.inf101.sem2;
 
 
 import no.uib.inf101.sem2.model.Board;
-import no.uib.inf101.sem2.model.Player;
+import no.uib.inf101.sem2.model.PlayerFactory;
 import no.uib.inf101.sem2.model.Playermodel;
+import no.uib.inf101.sem2.model.RandomPlayer;
 import no.uib.inf101.sem2.view.GridView;
 
 import javax.swing.JFrame;
@@ -13,8 +14,8 @@ public class Main {
   
   public static void main(String[] args) {
     Board board = new Board(10,10); 
-    Player player = new Player('p', null);  
-    Playermodel model = new Playermodel(board, player);
+    PlayerFactory player = new RandomPlayer();
+    Playermodel model = new Playermodel(board, player, player.getNext());
     GridView view = new GridView(model);
     //new ControllerMouseClicked(model, view);
   

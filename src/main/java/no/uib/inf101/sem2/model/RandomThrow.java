@@ -2,11 +2,11 @@ package no.uib.inf101.sem2.model;
 
 import java.util.Random;
 
-public class randomeThrow implements nextThrow {
+public class RandomThrow implements nextThrow {
     private final Random random;
     DiceState diceState = DiceState.ONE;
 
-    public randomeThrow() {
+    public RandomThrow() {
         this.random = new Random();
     }
 

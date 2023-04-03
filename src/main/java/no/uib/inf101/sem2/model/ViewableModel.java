@@ -25,7 +25,8 @@ public interface ViewableModel{
      * this method returns a score 
      * @return a score 
      */
-    int score();
 
     DiceState getDiceState();
+
+    Iterable<GridCell<Character>> getPiece();
 }

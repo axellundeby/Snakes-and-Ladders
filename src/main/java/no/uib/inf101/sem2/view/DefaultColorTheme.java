@@ -9,7 +9,8 @@ public class DefaultColorTheme implements ColorTheme{
     @Override
     public Color getCellColor(char c) {
       Color color = switch(c) {
-        case 'p' -> Color.cyan;//spiller
+        case 'P' -> Color.cyan;//spiller
+        case 'Q' -> Color.cyan;//spiller
         //.... fyll ut dine favorittfarger
         case '-' -> new Color(0, 0, 0, 37);
         default -> throw new IllegalArgumentException(

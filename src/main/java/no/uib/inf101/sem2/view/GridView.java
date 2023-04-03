@@ -57,6 +57,7 @@ public class GridView extends JPanel {
       GridDimension dimension = view.getDimension();
       CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
+      drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
     
       }
       
