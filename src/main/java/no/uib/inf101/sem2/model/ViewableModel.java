@@ -29,4 +29,7 @@ public interface ViewableModel{
     DiceState getDiceState();
 
     Iterable<GridCell<Character>> getPiece();
+
+    RandomThrow rollDice();
+
 }

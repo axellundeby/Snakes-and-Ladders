@@ -12,7 +12,7 @@ public class ControllerMouseClicked implements MouseListener {
   public ControllerMouseClicked(Playermodel model, Component view) {
     this.model = model;
     this.view = view;
-
+    //skjlnner ikke terning
     // Configure view for mouse input
     this.view.addMouseListener(this);
   }
