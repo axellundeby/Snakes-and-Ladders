@@ -12,7 +12,9 @@ public class RandomThrow implements nextThrow {
 
     @Override
     public int rollDice() {
-        return random.nextInt(6) + 1;
+        int eyes = random.nextInt(6) + 1;
+        nextThrow(eyes);
+        return eyes;
     }
 
     public void nextThrow(int eyes){
@@ -34,6 +36,9 @@ public class RandomThrow implements nextThrow {
         else if (eyes == 6){
             diceState = DiceState.SIX;
         }
+    }
+    public DiceState getDiceState(){
+        return diceState;
     }
 }
     

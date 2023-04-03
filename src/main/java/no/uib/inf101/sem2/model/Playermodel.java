@@ -7,7 +7,7 @@ public class Playermodel implements ViewableModel{
     Board board;
     Player player;
     PlayerFactory factory;
-    DiceState diceState = DiceState.SIX;
+    RandomThrow diceState = new RandomThrow();
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
         this.board = board;
@@ -31,11 +31,12 @@ public class Playermodel implements ViewableModel{
 
     @Override
     public DiceState getDiceState() {
-        return diceState;
+        return diceState.getDiceState();
     }
     @Override
     public RandomThrow rollDice() {
-        return new RandomThrow();
+        diceState.rollDice();
+        return diceState;
     }
    
 }

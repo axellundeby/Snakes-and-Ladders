@@ -1,28 +1,27 @@
 package no.uib.inf101.sem2.controller;
-import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import no.uib.inf101.sem2.model.Playermodel;
+import no.uib.inf101.sem2.view.GridView;
 
 public class ControllerMouseClicked implements MouseListener {
-  private final diceController model;
-  private final Component view;
+  private final Playermodel model;
+  private final GridView view;
 
-  public ControllerMouseClicked(Playermodel model, Component view) {
+  public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
     this.view = view;
-    //skjlnner ikke terning
-    // Configure view for mouse input
+  
     this.view.addMouseListener(this);
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    if (mouseEntered(e)){
+    if(view.getDiceRectangle().contains(e.getPoint())){
       model.rollDice();
-      //noe repaint greier
     }
+    view.repaint();
   }
 
   @Override 

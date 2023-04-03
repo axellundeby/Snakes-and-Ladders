@@ -1,6 +1,7 @@
 package no.uib.inf101.sem2;
 
 
+import no.uib.inf101.sem2.controller.ControllerMouseClicked;
 import no.uib.inf101.sem2.model.Board;
 import no.uib.inf101.sem2.model.PlayerFactory;
 import no.uib.inf101.sem2.model.Playermodel;
@@ -17,7 +18,7 @@ public class Main {
     PlayerFactory player = new RandomPlayer();
     Playermodel model = new Playermodel(board, player, player.getNext());
     GridView view = new GridView(model);
-    //new ControllerMouseClicked(model, view);
+    new ControllerMouseClicked(model, view);
   
     JFrame frame = new JFrame(WINDOW_TITLE);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

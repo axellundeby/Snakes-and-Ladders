@@ -58,7 +58,6 @@ public class GridView extends JPanel {
       CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
       drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
-    
       }
       
       private Rectangle2D getBoardRectangle() {
@@ -69,77 +68,48 @@ public class GridView extends JPanel {
         return new Rectangle2D.Double(boardX, boardY, boardWidth, boardHeight);
      }
     
-      private void drawDice(Graphics2D g) {
-        Rectangle2D diceRect = this.getDiceRectangle();
-        
-        if (view.getDiceState() == DiceState.ROLE) {
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-          
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
+     private void drawDice(Graphics2D g) {
+      Rectangle2D diceRect = this.getDiceRectangle();
+      BufferedImage diceImage = null;
+      DiceState diceState = view.getDiceState();
+      switch (diceState) {
+        case ROLE:
+          diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
           Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        
-        }
-        else if(view.getDiceState() == DiceState.ONE){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_1.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-
-        else if(view.getDiceState() == DiceState.TWO){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_2.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-        else if(view.getDiceState() == DiceState.THREE){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_3.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-        else if(view.getDiceState() == DiceState.FOUR){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_4.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-        else if(view.getDiceState() == DiceState.FIVE){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_5.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-        else if(view.getDiceState() == DiceState.SIX){//burde blitt en 
-          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_6.png");
-          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
-          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-
-          g.setFont(colorTheme.getFont());
-          g.setColor(colorTheme.getFontColor());
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + view.rollDice()+ ", neste sin tur" , getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
-        }
-
+          break;
+        case ONE:
+          diceImage = Inf101Graphics.loadImageFromResources("die_1.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet " + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
+        case TWO:
+          diceImage = Inf101Graphics.loadImageFromResources("die_2.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet " + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
+        case THREE:
+          diceImage = Inf101Graphics.loadImageFromResources("die_3.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
+        case FOUR:
+          diceImage = Inf101Graphics.loadImageFromResources("die_4.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
+        case FIVE:
+          diceImage = Inf101Graphics.loadImageFromResources("die_5.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
+        case SIX:
+          diceImage = Inf101Graphics.loadImageFromResources("die_6.png");
+          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          break;
       }
-      private Rectangle2D getDiceRectangle() {
+      
+      double scale = (diceRect.getHeight() - 1) / diceImage.getHeight();
+      Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
+      g.setFont(colorTheme.getFont());
+      g.setColor(colorTheme.getFontColor());
+    }
+
+      public Rectangle2D getDiceRectangle() {
         double width = getWidth();
         double height = getHeight();
         double size = Math.min(width, height) * 0.15; 
