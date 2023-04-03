@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class randomeThrow implements nextThrow {
     private final Random random;
-    DiceState diceState = DiceState.ROLE;
+    DiceState diceState = DiceState.ONE;
 
     public randomeThrow() {
         this.random = new Random();
@@ -35,8 +35,6 @@ public class randomeThrow implements nextThrow {
             diceState = DiceState.SIX;
         }
     }
-
-
 }
     
 

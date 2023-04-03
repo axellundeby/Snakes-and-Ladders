@@ -24,13 +24,14 @@ public class GridView extends JPanel {
   private final ColorTheme colorTheme;
   private boolean mouseIsInTheRectangle = false;
   BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
+
   
     public GridView(ViewableModel view) {
         this.view = view;
         this.colorTheme = new DefaultColorTheme();
         
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(boardImage.getWidth(), 700));
+        this.setPreferredSize(new Dimension(700, 750));
         this.setBackground(getBackground());
         this.setupMousePositionUpdater();
 
@@ -55,11 +56,8 @@ public class GridView extends JPanel {
       
       GridDimension dimension = view.getDimension();
       CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
-      g.setFont(colorTheme.getFont());
-      g.setColor(colorTheme.getFontColor());//font er feil farge
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
-      
-      Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+    
       }
       
       private Rectangle2D getBoardRectangle() {
@@ -72,17 +70,28 @@ public class GridView extends JPanel {
     
       private void drawDice(Graphics2D g) {
         Rectangle2D diceRect = this.getDiceRectangle();
+        
         if (view.getDiceState() == DiceState.ROLE) {
           BufferedImage diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
           double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
           Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
+          
+          g.setFont(colorTheme.getFont());
+          g.setColor(colorTheme.getFontColor());
+          Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
         
         }
+        else if(view.getDiceState() == DiceState.ONE){//burde blitt en 
+          BufferedImage diceImage = Inf101Graphics.loadImageFromResources("die_1.png");
+          double scale = (diceRect.getHeight() - 1)/diceImage.getHeight();
+          Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
+        }
+
       }
       private Rectangle2D getDiceRectangle() {
         double width = getWidth();
         double height = getHeight();
-        double size = Math.min(width, height) * 0.2; // 20% of the smaller dimension
+        double size = Math.min(width, height) * 0.2; 
         double x = (width - size) / 2;
         double y = height - size - 50;
         return new Rectangle2D.Double(x, y, size, size);

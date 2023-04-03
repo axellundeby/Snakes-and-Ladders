@@ -19,7 +19,10 @@ public class ControllerMouseClicked implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    ((diceController) view).rollDice();
+    if (mouseEntered(e)){
+      model.rollDice();
+      //noe repaint greier
+    }
   }
 
   @Override 

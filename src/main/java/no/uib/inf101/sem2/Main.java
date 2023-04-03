@@ -1,7 +1,8 @@
 package no.uib.inf101.sem2;
 
-import no.uib.inf101.sem2.controller.ControllerMouseClicked;
+
 import no.uib.inf101.sem2.model.Board;
+import no.uib.inf101.sem2.model.Player;
 import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.view.GridView;
 
@@ -11,8 +12,9 @@ public class Main {
   public static final String WINDOW_TITLE = "INF101 Snake and Ladders";
   
   public static void main(String[] args) {
-    Board board = new Board(10,10);   
-    Playermodel model = new Playermodel(board);
+    Board board = new Board(10,10); 
+    Player player = new Player('p', null);  
+    Playermodel model = new Playermodel(board, player);
     GridView view = new GridView(model);
     //new ControllerMouseClicked(model, view);
   

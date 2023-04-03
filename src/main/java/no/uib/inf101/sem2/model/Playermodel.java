@@ -5,11 +5,13 @@ import no.uib.inf101.sem2.grid.GridDimension;
 
 public class Playermodel implements ViewableModel{
     Board board;
+    Player player;
     DiceState diceState = DiceState.ROLE;
-   
 
-    public Playermodel(Board board){
+    public Playermodel(Board board, Player player){
         this.board = board;
+        this.player = player;
+        this.player = player.spawnPlayer(board);
         
     }
     @Override
