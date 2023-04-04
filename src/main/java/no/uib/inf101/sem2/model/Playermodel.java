@@ -38,5 +38,10 @@ public class Playermodel implements ViewableModel{
         diceState.rollDice();
         return diceState;
     }
+    
+    @Override
+    public void movePlayer(int eyes) {
+       
+    }
    
 }

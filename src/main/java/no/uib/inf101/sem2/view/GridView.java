@@ -75,38 +75,38 @@ public class GridView extends JPanel {
       switch (diceState) {
         case ROLE:
           diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
-          Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case ONE:
           diceImage = Inf101Graphics.loadImageFromResources("die_1.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 1, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case TWO:
           diceImage = Inf101Graphics.loadImageFromResources("die_2.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet " + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 2, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case THREE:
           diceImage = Inf101Graphics.loadImageFromResources("die_3.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 3, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case FOUR:
           diceImage = Inf101Graphics.loadImageFromResources("die_4.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 4, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case FIVE:
           diceImage = Inf101Graphics.loadImageFromResources("die_5.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 5, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
         case SIX:
           diceImage = Inf101Graphics.loadImageFromResources("die_6.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet "  + ", neste sin tur", getWidth(), getHeight()-50, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 6, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
       }
       
       double scale = (diceRect.getHeight() - 1) / diceImage.getHeight();
       Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-      g.setFont(colorTheme.getFont());
-      g.setColor(colorTheme.getFontColor());
+      // g.setFont(colorTheme.getFont());
+      // g.setColor(colorTheme.getFontColor());//whaaat??
     }
 
       public Rectangle2D getDiceRectangle() {

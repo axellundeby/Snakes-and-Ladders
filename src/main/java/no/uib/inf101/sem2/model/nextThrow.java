@@ -7,4 +7,5 @@ public interface nextThrow {
      */
 
     int rollDice();
+   
 }
