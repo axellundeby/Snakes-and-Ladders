@@ -1,6 +1,4 @@
 package no.uib.inf101.sem2.model;
-
-import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
@@ -8,7 +6,8 @@ public class Playermodel implements ViewableModel{
     Board board;
     Player player;
     PlayerFactory factory;
-    RandomThrow diceState = new RandomThrow();
+    private DiceState diceState = DiceState.ROLE;
+    
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
         this.board = board;
@@ -32,7 +31,7 @@ public class Playermodel implements ViewableModel{
 
     @Override
     public DiceState getDiceState() {
-        return diceState.getDiceState();
+        return updateDiceNumber();
     }
     @Override
     public RandomThrow rollDice() {
@@ -40,86 +39,126 @@ public class Playermodel implements ViewableModel{
         return diceState;
     }
 
-//her er det noe rør siden jeg ikke får hentet ut øyne  
-    public void movePlayer(int eyes, CellPosition pos) {
-        int PlayerRow = pos.row();
-        if(PlayerRow % 2 == 0){
-            movePlayerRight(eyes);
+    //opdater enumet
+    public void updateDiceNumber(int eyes) {
+        if (eyes == 1){
+            diceState = DiceState.ONE;
         }
-        else{
-            movePlayerLeft(eyes);
+        else if (eyes == 2){
+            diceState = DiceState.TWO;
         }
-        PlayerOnEdge(player, pos);
-        Snake(pos);
-        Ladder(pos);
+        else if (eyes == 3){
+            diceState = DiceState.THREE;
+        }
+        else if (eyes == 4){
+            diceState = DiceState.FOUR;
+        }
+        else if (eyes == 5){
+            diceState = DiceState.FIVE;
+        }
+        else if (eyes == 6){
+            diceState = DiceState.SIX;
+        }
     }
 
-    private void PlayerOnEdge(Player player, CellPosition pos){    
-            int PlayerCol = pos.col();
-            if(PlayerCol == 0 || PlayerCol == 9){
-            player.shiftedBy(+1,0);
+//hente eyes fra modellen
+    public void movePlayer(int eyes) {
+        int PlayerRow = player.getPos().row();
+        int PlayerCol = player.getPos().col();
+        for (int i = 0; i <= eyes; i++) {
+            if(PlayerRow % 2 == 0){
+                if (PlayerCol == 9){
+                    PlayerOnEdge(eyes);
+                    }
+                else{
+                    movePlayerRight(eyes);
+                }
+                }
+            else{
+                if (PlayerCol == 0){
+                    PlayerOnEdge(eyes);
+                    }
+                else{
+                    movePlayerLeft(eyes);
+                }
+            }
         }
+        Snake();
+        Ladder();
+        lastTile();
     }
+
     private void movePlayerRight(int eyes) {
-        for(int i = 0; i < eyes; i++){
             player.shiftedBy(0, +1);
-        }
     }
-
+    
     private void movePlayerLeft(int eyes) {
-        for(int i = 0; i < eyes; i++){
             player.shiftedBy(0, -1);
-        }
     }
-
-    private void Snake(CellPosition pos){
-        if(pos.row() == 9 && pos.col() == 1){
+    
+    private void PlayerOnEdge(int eyes){       
+            player.shiftedBy(+1,0);
+            eyes--;
+    }
+    
+    private void Snake() {
+        int row = player.getPos().row();
+        int col = player.getPos().col();
+        
+        if (row == 9 && col == 1) {
             player.shiftedBy(4, 0);
-        }
-        else if (pos.row() == 8 && pos.col() == 8){
+        } else if (row == 8 && col == 8) {
             player.shiftedBy(5, 7);
-        }
-        else if (pos.row() == 7 && pos.col() == 4){
+        } else if (row == 7 && col == 4) {
             player.shiftedBy(5, 2);
-        }
-        else if (pos.row() == 6 && pos.col() == 5){
+        } else if (row == 6 && col == 5) {
             player.shiftedBy(4, 4);
-        }
-        else if (pos.row() == 5 && pos.col() == 6){
+        } else if (row == 5 && col == 6) {
             player.shiftedBy(3, 9);
-        }
-        else if (pos.row() == 4 && pos.col() == 2){
+        } else if (row == 4 && col == 2) {
             player.shiftedBy(1, 2);
-        }
-        else if (pos.row() == 3 && pos.col() == 0){
+        } else if (row == 3 && col == 0) {
             player.shiftedBy(0, 2);
-        }
-        else if (pos.row() == 2 && pos.col() == 6){
+        } else if (row == 2 && col == 6) {
             player.shiftedBy(0, 4);
         }
-    }
+     }
 
-    private void Ladder(CellPosition pos){
-        if(pos.row() == 0 && pos.col() == 3){
+     public void Ladder() {
+        int row = player.getPos().row();
+        int col = player.getPos().col();
+    
+        if (row == 0 && col == 3) {
             player.shiftedBy(2, 4);
-        }
-        else if(pos.row() == 1 && pos.col() == 7){
+        } else if (row == 1 && col == 7) {
             player.shiftedBy(4, 5);
-        }
-        else if(pos.row() == 3 && pos.col() == 7){
+        } else if (row == 3 && col == 7) {
             player.shiftedBy(4, 8);
-        }
-        else if(pos.row() == 4 && pos.col() == 9){
+        } else if (row == 4 && col == 9) {
             player.shiftedBy(6, 8);
-        }
-        else if(pos.row() == 4 && pos.col() == 1){
+        } else if (row == 4 && col == 1) {
             player.shiftedBy(6, 5);
-        }
-        else if(pos.row() == 6 && pos.col() == 1){
+        } else if (row == 6 && col == 1) {
             player.shiftedBy(8, 0);
-        }
-        else if(pos.row() == 7 && pos.col() == 6){
+        } else if (row == 7 && col == 6) {
             player.shiftedBy(9, 8);
         }
+    }
+
+    public void lastTile() {
+        if (player.getPos().row() == 9 && player.getPos().col() == 9){
+            nextPlayer();
+            //brikken må også fjernes, altså må plassen bli en "-"
+            //count terningtrykk, lagre i liste, 
+            //winner(gangerRullet), winner burde bli kalt på i RadnomPlayer klassen
+        }
+    }
+    //ny spiller når player1 har kommet i mål
+    public void nextPlayer(){
+            this.player = factory.getNext();
+            this.player = player.spawnPlayer(board);
+    }
+    public void winner(){
+        //sjekker minste tallet, spiller med minst tall vinner
     }
 }
