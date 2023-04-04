@@ -11,8 +11,6 @@ public interface ViewableModel{
     Iterable<GridCell<Character>> getTilesOnBoard();    
 
     Iterable<GridCell<Character>> getPiece();
-
-    RandomThrow rollDice();
-
+    
     DiceState getDiceState();
 }

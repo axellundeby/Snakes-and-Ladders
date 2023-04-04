@@ -31,15 +31,9 @@ public class Playermodel implements ViewableModel{
 
     @Override
     public DiceState getDiceState() {
-        return diceState.getDiceState();
-    }
-    @Override
-    public RandomThrow rollDice() {
-        diceState.rollDice();
         return diceState;
     }
-
-    //opdater enumet
+   
     public void updateDiceNumber(int eyes) {
         if (eyes == 1){
             diceState = DiceState.ONE;
@@ -61,7 +55,6 @@ public class Playermodel implements ViewableModel{
         }
     }
 
-//hente eyes fra modellen
     public void movePlayer(int eyes) {
         int PlayerRow = player.getPos().row();
         int PlayerCol = player.getPos().col();
