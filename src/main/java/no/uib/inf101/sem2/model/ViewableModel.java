@@ -16,5 +16,4 @@ public interface ViewableModel{
 
     RandomThrow rollDice();
 
-    void movePlayer(int eyes);
 }

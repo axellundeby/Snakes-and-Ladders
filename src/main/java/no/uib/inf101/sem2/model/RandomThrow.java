@@ -15,7 +15,7 @@ public class RandomThrow implements nextThrow {
     public int rollDice() {
         int eyes = random.nextInt(6) + 1;
         nextThrow(eyes);
-        //movePlayer(eyes);
+        //model.movePlayer(eyes);//når terningen kastes, skal movePlayer kalle på, det går ikke
         return eyes;
     }
 
