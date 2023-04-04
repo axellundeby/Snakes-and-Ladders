@@ -73,7 +73,7 @@ public final class Player implements Iterable<GridCell<Character>> {
         return this.c == other.c && this.playerID.equals(other.playerID) && this.pos.equals(other.pos);
     }
 
-    public CellPosition pos() {
-        return null;
+    public CellPosition getPos() {
+        return pos;
     }
 }

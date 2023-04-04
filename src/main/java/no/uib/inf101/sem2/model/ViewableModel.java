@@ -10,10 +10,9 @@ public interface ViewableModel{
     
     Iterable<GridCell<Character>> getTilesOnBoard();    
 
-    DiceState getDiceState();
-
     Iterable<GridCell<Character>> getPiece();
 
     RandomThrow rollDice();
 
+    DiceState getDiceState();
 }

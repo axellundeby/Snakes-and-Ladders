@@ -31,7 +31,7 @@ public class Playermodel implements ViewableModel{
 
     @Override
     public DiceState getDiceState() {
-        return updateDiceNumber();
+        return diceState.getDiceState();
     }
     @Override
     public RandomThrow rollDice() {

@@ -16,6 +16,7 @@ public class RandomPlayer implements PlayerFactory {
     public Player getNext() {
         if (playerSymbols.length == 0) {
             return null;
+            //winner må kalle på her
         }
         int randomIndex = random.nextInt(playerSymbols.length);
         char randomSymbol = playerSymbols[randomIndex];
