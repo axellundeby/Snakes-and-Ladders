@@ -22,10 +22,18 @@ public class ControllerMouseClicked implements MouseListener {
     if(view.getDiceRectangle().contains(e.getPoint())){
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
-      model.PlayerJump(eyes);
-      //model.nextPlayer();
+      for (int i = 0; i < eyes; i++) {
+        model.PlayerJump();
+        view.repaint();
+        try {
+              Thread.sleep(500);
+          } catch (InterruptedException e1) {
+              e1.printStackTrace();
+          }
+      }
+      model.SteppedOnLadder();
+      model.SteppedOnSnake();
     }
-    view.repaint();
   }
 
   @Override 
