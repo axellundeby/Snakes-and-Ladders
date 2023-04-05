@@ -13,4 +13,6 @@ public interface ViewableModel{
     Iterable<GridCell<Character>> getPiece();
     
     DiceState getDiceState();
+
+    GameState getGamestate();
 }

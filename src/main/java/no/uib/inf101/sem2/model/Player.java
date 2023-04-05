@@ -11,7 +11,7 @@ import no.uib.inf101.sem2.grid.GridDimension;
 public final class Player implements Iterable<GridCell<Character>> {
     private final char c;
     private final String playerID;
-    private final CellPosition pos;
+    private CellPosition pos;
 
     static final String PLAYER_1 = "P";
     static final String PLAYER_2 = "Q";
@@ -77,4 +77,8 @@ public final class Player implements Iterable<GridCell<Character>> {
     public CellPosition getPos() {
         return pos;
     }
+    public void setPos(CellPosition pos) {
+        this.pos = pos;
+    }
+    
 }

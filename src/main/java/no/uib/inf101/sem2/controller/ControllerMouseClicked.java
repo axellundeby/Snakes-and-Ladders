@@ -1,7 +1,6 @@
 package no.uib.inf101.sem2.controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
 import no.uib.inf101.sem2.view.GridView;
@@ -15,6 +14,7 @@ public class ControllerMouseClicked implements MouseListener {
     this.model = model;
     this.view = view;
     this.view.addMouseListener(this);
+  
   }
 
   @Override
@@ -22,7 +22,7 @@ public class ControllerMouseClicked implements MouseListener {
     if(view.getDiceRectangle().contains(e.getPoint())){
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
-      model.movePlayer(eyes);
+      model.PlayerJump(eyes);
       //model.nextPlayer();
     }
     view.repaint();

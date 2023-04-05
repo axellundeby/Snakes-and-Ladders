@@ -31,5 +31,9 @@ public interface ColorTheme {
 
      Font getFontGameOver();
 
+     Color getWinnerBackground();
+
+     Font getFontWinner();
+
 
 }   

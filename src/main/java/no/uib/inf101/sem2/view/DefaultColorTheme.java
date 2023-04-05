@@ -46,13 +46,24 @@ public class DefaultColorTheme implements ColorTheme{
 
     @Override
     public Color getFontColor() {
-        return Color.black;
+        return Color.magenta;
     }
 
 
     @Override
     public Color getGameOverBackgroundColor() {
         return new Color(0, 0, 0, 128);
+    }
+
+
+    @Override
+    public Color getWinnerBackground() {
+        return new Color(0, 0, 0, 128);
+    }
+
+    @Override
+    public Font getFontWinner() {
+        return new Font("Serif", Font.BOLD, 50);
     }
 
     

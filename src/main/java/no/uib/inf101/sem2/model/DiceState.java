@@ -8,7 +8,4 @@ public enum DiceState {
     FOUR, 
     FIVE, 
     SIX;
-
-    public void rollDice() {
-    }
 }

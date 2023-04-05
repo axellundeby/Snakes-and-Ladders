@@ -1,4 +1,6 @@
 package no.uib.inf101.sem2.model;
+import no.uib.inf101.sem2.controller.diceController;
+import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
@@ -7,6 +9,7 @@ public class Playermodel implements ViewableModel{
     Player CurrentPlayer;
     PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
+    private GameState gameState = GameState.GameActive;
     
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
@@ -55,102 +58,115 @@ public class Playermodel implements ViewableModel{
         }
     }
 
-    public void movePlayer(int deltaRow, int deltaCol) {
+    private void movePlayer(int deltaRow, int deltaCol) {
         Player ShapeCopy = CurrentPlayer.shiftedBy(deltaRow, deltaCol);
         this.CurrentPlayer = ShapeCopy;
+    
     }
-
-    public void movePlayer(int eyes) {
-        int PlayerRow = CurrentPlayer.getPos().row();
-        int PlayerCol = CurrentPlayer.getPos().col();
+    private void movePlayerTo(int row, int col) {
+        CurrentPlayer.setPos(new CellPosition(row, col));
+    }
+    //må legge til delay, sånn at vi ser hoppene til spilleren
+    public void PlayerJump(int eyes) {
         for (int i = 0; i < eyes; i++) {
+            int PlayerRow = CurrentPlayer.getPos().row();
+            int PlayerCol = CurrentPlayer.getPos().col();
             if(PlayerRow % 2 != 0){
                 if (PlayerCol == 9){
-                    PlayerOnEdge(eyes);
-                    }
+                    PlayerOnEdge();
+                }
                 else{
                     movePlayerRight();
                 }
-                }
+            }
             else{
                 if (PlayerCol == 0){
-                    PlayerOnEdge(eyes);
-                    }
+                    PlayerOnEdge();
+                }
+                else if(PlayerCol == 0 && PlayerRow == 0){
+                    Winner();
+                }
                 else{
                     movePlayerLeft();
                 }
             }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        Snake();
-        Ladder();
+        SteppedOnSnake();
+        SteppedOnLadder();
         // lastTile();
     }
     private void movePlayerRight() {
-       movePlayer(0, +1);
+        movePlayer(0, +1);
     }
     
     private void movePlayerLeft() {
         movePlayer(0, -1);
     }
     
-    private void PlayerOnEdge(int eyes){       
-        movePlayer(+1,0);
-            eyes--;
+    private void PlayerOnEdge(){       
+        movePlayer(-1,0);
     }
-    
-    private void Snake() {
+    //må sjekke om en spiller er på et felt, når landet
+    private void SteppedOnSnake() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
         
         if (row == 9 && col == 1) {
-            movePlayer(4, 0);
+            movePlayerTo(4, 0);//
         } else if (row == 8 && col == 8) {
-            movePlayer(5, 7);
+            movePlayerTo(5, 7);//
         } else if (row == 7 && col == 4) {
-            movePlayer(5, 2);
+            movePlayerTo(5, 2);
         } else if (row == 6 && col == 5) {
-            movePlayer(4, 4);
+            movePlayerTo(4, 4);//
         } else if (row == 5 && col == 6) {
-            movePlayer(3, 9);
+             movePlayerTo(3, 9);//
         } else if (row == 4 && col == 2) {
-            movePlayer(1, 2);
+            movePlayerTo(1, 2);//
         } else if (row == 3 && col == 0) {
-            movePlayer(0, 2);
+            movePlayerTo(0, 2);//
         } else if (row == 2 && col == 6) {
-            movePlayer(0, 4);
+            movePlayerTo(0, 4);//
         }
      }
 
-     public void Ladder() {
+     public void SteppedOnLadder() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
     
         if (row == 0 && col == 3) {
-            movePlayer(2, 4);
+            movePlayerTo(2, 4);
         } else if (row == 1 && col == 7) {
-            movePlayer(4, 5);
+            movePlayerTo(4, 5);
         } else if (row == 3 && col == 7) {
-            movePlayer(4, 8);
-        } else if (row == 4 && col == 9) {
-            movePlayer(6, 8);
+            movePlayerTo(4, 8);
         } else if (row == 4 && col == 1) {
-            movePlayer(6, 5);
+            movePlayerTo(6, 2);
+        } else if (row == 4 && col == 9) {
+            movePlayerTo(6, 8);
         } else if (row == 6 && col == 1) {
-            movePlayer(8, 0);
+            movePlayerTo(8, 0);
         } else if (row == 7 && col == 6) {
-            movePlayer(9, 8);
+            movePlayerTo(9, 8);
         }
     }
 
-    // public void Winner() {
-    //     if (player.getPos().row() == 9 && player.getPos().col() == 9){
-    //         nextPlayer();
-    //     }
-    // }
-    // //ny spiller når player1 har kommet i mål
-    // public void nextPlayer(){
-    //         this.player = factory.getNext();
-    //         this.player = player.spawnPlayer(board);
-    // }
-
+    public void Winner() {
+        
+       gameState = GameState.GameOver;
+    }
+ 
+    public void nextPlayer(){
+            this.CurrentPlayer = factory.getNext();
+            this.CurrentPlayer = CurrentPlayer.spawnPlayer(board);
+    }
+    @Override
+    public GameState getGamestate() {
+        return gameState;
+    }
 }

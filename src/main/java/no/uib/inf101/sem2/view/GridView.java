@@ -5,6 +5,7 @@ import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.DiceState;
+import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.ViewableModel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -58,7 +59,23 @@ public class GridView extends JPanel {
       CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
       drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
-      }
+      if(view.getGamestate() == GameState.GameOver){
+        winnerBoard(g);
+    }
+  }
+
+    private void winnerBoard(Graphics2D g) {
+      ColorTheme gmColor = new DefaultColorTheme();
+      Rectangle2D winnerBox = this.getBoardRectangle();
+      g.setColor(gmColor.getWinnerBackground());
+      g.fill(winnerBox);
+
+      g.setFont(gmColor.getFontWinner());
+      g.setColor(gmColor.getFontColor());
+
+      Inf101Graphics.drawCenteredString(g, "Spillet er over",0, 0, this.getWidth(), this.getHeight());
+      Inf101Graphics.drawCenteredString(g, "Vinneren ble: " , 0, 0, this.getWidth(), this.getHeight() + 100);
+    }
       
       private Rectangle2D getBoardRectangle() {
         int boardWidth = (int) (getWidth() * 0.8); 
