@@ -1,5 +1,4 @@
 package no.uib.inf101.sem2.model;
-import no.uib.inf101.sem2.controller.diceController;
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
@@ -66,40 +65,31 @@ public class Playermodel implements ViewableModel{
     private void movePlayerTo(int row, int col) {
         CurrentPlayer.setPos(new CellPosition(row, col));
     }
-    //må legge til delay, sånn at vi ser hoppene til spilleren
-    public void PlayerJump(int eyes) {
-        for (int i = 0; i < eyes; i++) {
-            int PlayerRow = CurrentPlayer.getPos().row();
-            int PlayerCol = CurrentPlayer.getPos().col();
-            if(PlayerRow % 2 != 0){
-                if (PlayerCol == 9){
-                    PlayerOnEdge();
-                }
-                else{
-                    movePlayerRight();
-                }
+
+    public void PlayerJump() {
+        int PlayerRow = CurrentPlayer.getPos().row();
+        int PlayerCol = CurrentPlayer.getPos().col();
+        if(PlayerRow % 2 != 0){
+            if (PlayerCol == 9){
+                PlayerOnEdge();
             }
             else{
-                if (PlayerCol == 0){
-                    PlayerOnEdge();
-                }
-                else if(PlayerCol == 0 && PlayerRow == 0){
-                    Winner();
-                }
-                else{
-                    movePlayerLeft();
-                }
-            }
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                movePlayerRight();
             }
         }
-        SteppedOnSnake();
-        SteppedOnLadder();
-        // lastTile();
+        else{
+            if (PlayerCol == 0){
+                PlayerOnEdge();
+            }
+            else if(PlayerRow == 0 && PlayerCol == 0){
+                Winner();
+            }
+            else{
+                movePlayerLeft();
+            }
+        }
     }
+
     private void movePlayerRight() {
         movePlayer(0, +1);
     }
@@ -112,7 +102,7 @@ public class Playermodel implements ViewableModel{
         movePlayer(-1,0);
     }
     //må sjekke om en spiller er på et felt, når landet
-    private void SteppedOnSnake() {
+    public void SteppedOnSnake() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
         
