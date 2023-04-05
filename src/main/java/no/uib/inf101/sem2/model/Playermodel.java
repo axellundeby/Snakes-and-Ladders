@@ -81,7 +81,7 @@ public class Playermodel implements ViewableModel{
             if (PlayerCol == 0){
                 PlayerOnEdge();
             }
-            else if(PlayerRow == 0 && PlayerCol == 0){
+            else if(PlayerRow < 0 && PlayerCol < 0){
                 Winner();
             }
             else{
