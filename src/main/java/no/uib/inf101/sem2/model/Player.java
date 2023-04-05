@@ -37,11 +37,12 @@ public final class Player implements Iterable<GridCell<Character>> {
 
     public Player shiftedBy(int deltaRow, int deltaCol) {
         CellPosition pos = new CellPosition(this.pos.row() + deltaRow, this.pos.col() + deltaCol);
-        return new Player(c, playerID, pos);
+        Player ShapeCopy = new Player(c, playerID, pos);
+        return ShapeCopy;
     }
 
     public Player spawnPlayer(GridDimension dimension) {
-        CellPosition pos = new CellPosition(dimension.rows() - 1, 0);
+        CellPosition pos = new CellPosition(9, 0);
         return new Player(c, playerID, pos);
     }
 

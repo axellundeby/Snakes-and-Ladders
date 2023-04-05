@@ -20,10 +20,10 @@ public class ControllerMouseClicked implements MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     if(view.getDiceRectangle().contains(e.getPoint())){
-      //model.rollDice();
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
       model.movePlayer(eyes);
+      //model.nextPlayer();
     }
     view.repaint();
   }
