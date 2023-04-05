@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Timer;
+
+import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
 import no.uib.inf101.sem2.view.GridView;
@@ -15,8 +17,9 @@ public class ControllerMouseClicked implements MouseListener {
   private RandomThrow randomThrow = new RandomThrow();
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
-  private static final int ANIMATION_DELAY_MS = 100;
-  private GameState gameState = GameState.PLAY;
+  private static final int ANIMATION_DELAY_MS = 200;
+  //private GameState gameState = GameState.GameActive;
+  private GameState gameState = GameState.GameActive;
 
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
@@ -32,11 +35,11 @@ public class ControllerMouseClicked implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    if(view.getDiceRectangle().contains(e.getPoint())){
+    if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
       diceEyesToAnimate = eyes;
-      gameState = GameState.ANIMATE;
+      gameState = GameState.GameOver;
       animationTimer.start();
     }
     view.repaint();
@@ -49,7 +52,7 @@ public class ControllerMouseClicked implements MouseListener {
       view.repaint();
     } else {
       model.SteppedOnLadder();
-      gameState = GameState.PLAY;
+      gameState = GameState.GameActive;
       animationTimer.stop();
     }
   }
@@ -74,8 +77,4 @@ public class ControllerMouseClicked implements MouseListener {
     // ignore
   }
 
-  private enum GameState {
-    PLAY,
-    ANIMATE
-  }
 }
