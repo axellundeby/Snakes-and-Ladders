@@ -5,6 +5,7 @@ import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.DiceState;
+import no.uib.inf101.sem2.model.GameInfo;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.ViewableModel;
 import java.awt.Graphics;
@@ -61,9 +62,20 @@ public class GridView extends JPanel {
       drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
       if(view.getGamestate() == GameState.GameOver){
         winnerBoard(g);
-    }
+      }
+      else if(view.getGameInfo() == GameInfo.LADDER){
+        LadderBoard(g);
+      }
+      else if(view.getGameInfo() == GameInfo.SNAKE){
+        SankeBoard(g);
+      }
+      else if(view.getGameInfo() == GameInfo.STUMP){
+        StumpBoard(g);
+      }
+      else if (view.getGameInfo() == GameInfo.DEFAULT){
+        DefaultBoard(g);
+      }
   }
-
     private void winnerBoard(Graphics2D g) {
       ColorTheme gmColor = new DefaultColorTheme();
       Rectangle2D winnerBox = this.getBoardRectangle();
@@ -75,6 +87,43 @@ public class GridView extends JPanel {
 
       Inf101Graphics.drawCenteredString(g, "Spillet er over",0, 0, this.getWidth(), this.getHeight());
       Inf101Graphics.drawCenteredString(g, "Vinneren ble: " , 0, 0, this.getWidth(), this.getHeight() + 100);
+    }
+
+    private void DefaultBoard(Graphics2D g) {
+      ColorTheme gmColor = new DefaultColorTheme();
+      Rectangle2D Box = this.getBoardRectangle();
+      g.setColor(gmColor.getFrameColor());
+      g.fill(Box);
+    }
+
+    private void LadderBoard(Graphics2D g) {
+      ColorTheme gmColor = new DefaultColorTheme();
+      Rectangle2D Box = this.getBoardRectangle();
+      g.setColor(gmColor.getLadderBackground());
+      g.fill(Box);
+
+      g.setFont(gmColor.getFontWinner());
+      g.setColor(gmColor.getFontColor());
+
+      Inf101Graphics.drawCenteredString(g, "Du trokket på en stige",0, 0, this.getWidth(), this.getHeight());
+    }
+
+    private void StumpBoard(Graphics2D g) {
+      BufferedImage boot = Inf101Graphics.loadImageFromResources("/boot.png");
+      Inf101Graphics.drawCenteredImage(g, boot, getWidth(), getHeight(), 0.15);
+     
+    }
+
+    private void SankeBoard(Graphics2D g) {
+      ColorTheme gmColor = new DefaultColorTheme();
+      Rectangle2D Box = this.getBoardRectangle();
+      g.setColor(gmColor.getSnakeBackground());
+      g.fill(Box);
+
+      g.setFont(gmColor.getFontWinner());
+      g.setColor(gmColor.getFontColor());
+
+      Inf101Graphics.drawCenteredString(g, "Du trokket på en slange",0, 0, this.getWidth(), this.getHeight());
     }
       
       private Rectangle2D getBoardRectangle() {

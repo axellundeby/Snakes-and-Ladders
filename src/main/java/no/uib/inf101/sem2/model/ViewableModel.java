@@ -15,4 +15,6 @@ public interface ViewableModel{
     DiceState getDiceState();
 
     GameState getGamestate();
+
+    GameInfo getGameInfo();
 }

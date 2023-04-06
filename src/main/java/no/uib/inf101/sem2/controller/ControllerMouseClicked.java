@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Timer;
 
+import no.uib.inf101.sem2.model.GameInfo;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
@@ -18,8 +19,8 @@ public class ControllerMouseClicked implements MouseListener {
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
   private static final int DELAY = 200;
-  //private GameState gameState = GameState.GameActive;
   private GameState gameState = GameState.GameActive;
+  private GameInfo gameInfo = GameInfo.DEFAULT;
 
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
@@ -36,8 +37,10 @@ public class ControllerMouseClicked implements MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){
+      gameInfo = GameInfo.DEFAULT;
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
+      //model.nextPlayer();
       diceEyesToAnimate = eyes;
       gameState = GameState.GameOver;
       animationTimer.start();
@@ -52,8 +55,8 @@ public class ControllerMouseClicked implements MouseListener {
       view.repaint();
     } else {
       model.SteppedOnLadder();
-      model.SteppedOnSnake();
-      model.stumpPlayer();
+     // model.SteppedOnSnake();
+      //model.stumpPlayer();//noe gæli her
       gameState = GameState.GameActive;
       animationTimer.stop();
     }

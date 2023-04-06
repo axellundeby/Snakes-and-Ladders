@@ -9,6 +9,7 @@ public class Playermodel implements ViewableModel{
     PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameActive;
+    private GameInfo gameInfo = GameInfo.DEFAULT;
     
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
@@ -105,7 +106,8 @@ public class Playermodel implements ViewableModel{
     public void SteppedOnSnake() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
-        
+        gameInfo = GameInfo.SNAKE;
+
         if (row == 9 && col == 1) {
             movePlayerTo(4, 0);//
         } else if (row == 8 && col == 8) {
@@ -128,6 +130,7 @@ public class Playermodel implements ViewableModel{
      public void SteppedOnLadder() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
+        gameInfo = GameInfo.LADDER;
     
         if (row == 0 && col == 3) {
             movePlayerTo(2, 4);
@@ -151,8 +154,8 @@ public class Playermodel implements ViewableModel{
     }
  
     public void nextPlayer(){
-        this.CurrentPlayer = factory.getNext();
-        this.CurrentPlayer = CurrentPlayer.spawnPlayer(board);
+        Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
+        CurrentPlayer = CurrentPlayerTemp;
     }
 
     public void turn(){
@@ -165,6 +168,13 @@ public class Playermodel implements ViewableModel{
     }
     //om en spiller går på en annen spiller, flyttes den til start
     public void stumpPlayer() {
-        
+        CellPosition pos = CurrentPlayer.getPos();
+        if(board.get(pos) == '-'){
+            movePlayer(9, 0);
+        }
+    }
+    @Override
+    public GameInfo getGameInfo() {
+        return gameInfo;
     }
 }

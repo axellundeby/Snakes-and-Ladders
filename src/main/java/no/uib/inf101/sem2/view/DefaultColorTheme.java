@@ -33,14 +33,13 @@ public class DefaultColorTheme implements ColorTheme{
     
     @Override
     public Font getFont() {
-        return new Font("Serif", Font.BOLD, 15);
+        return new Font("Serif", Font.BOLD, 5);
     }
-
 
 
     @Override
     public Font getFontGameOver() {
-        return new Font("Serif", Font.BOLD, 50);
+        return new Font("Serif", Font.BOLD, 5);
     }
 
 
@@ -64,6 +63,18 @@ public class DefaultColorTheme implements ColorTheme{
     @Override
     public Font getFontWinner() {
         return new Font("Serif", Font.BOLD, 50);
+    }
+
+
+    @Override
+    public Color getLadderBackground() {
+        return new Color(0, 200, 0, 128);
+    }
+
+
+    @Override
+    public Color getSnakeBackground() {
+        return new Color(200, 0, 0, 128);
     }
 
     
