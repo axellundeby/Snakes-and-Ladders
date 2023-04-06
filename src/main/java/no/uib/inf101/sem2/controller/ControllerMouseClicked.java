@@ -42,7 +42,7 @@ public class ControllerMouseClicked implements MouseListener {
       model.updateDiceNumber(eyes);
       //model.nextPlayer();
       diceEyesToAnimate = eyes;
-      gameState = GameState.GameOver;
+      gameState = GameState.ANIMATE;
       animationTimer.start();
     }
     view.repaint();

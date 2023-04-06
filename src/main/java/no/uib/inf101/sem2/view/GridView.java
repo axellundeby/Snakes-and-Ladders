@@ -31,7 +31,6 @@ public class GridView extends JPanel {
     public GridView(ViewableModel view) {
         this.view = view;
         this.colorTheme = new DefaultColorTheme();
-        
         this.setFocusable(true);
         this.setPreferredSize(new Dimension(700, 750));
         this.setBackground(getBackground());
@@ -45,6 +44,8 @@ public class GridView extends JPanel {
       Graphics2D g2 = (Graphics2D) g;
       drawBoard(g2);
       drawDice(g2);
+      getEventRectangle();
+      drawEvent(g2);
     }
 
     /**
@@ -60,71 +61,50 @@ public class GridView extends JPanel {
       CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
       drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
       drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
-      if(view.getGamestate() == GameState.GameOver){
-        winnerBoard(g);
-      }
-      else if(view.getGameInfo() == GameInfo.LADDER){
-        LadderBoard(g);
-      }
-      else if(view.getGameInfo() == GameInfo.SNAKE){
-        SankeBoard(g);
-      }
-      else if(view.getGameInfo() == GameInfo.STUMP){
-        StumpBoard(g);
-      }
-      else if (view.getGameInfo() == GameInfo.DEFAULT){
-        DefaultBoard(g);
-      }
-  }
-    private void winnerBoard(Graphics2D g) {
-      ColorTheme gmColor = new DefaultColorTheme();
-      Rectangle2D winnerBox = this.getBoardRectangle();
-      g.setColor(gmColor.getWinnerBackground());
-      g.fill(winnerBox);
-
-      g.setFont(gmColor.getFontWinner());
-      g.setColor(gmColor.getFontColor());
-
-      Inf101Graphics.drawCenteredString(g, "Spillet er over",0, 0, this.getWidth(), this.getHeight());
-      Inf101Graphics.drawCenteredString(g, "Vinneren ble: " , 0, 0, this.getWidth(), this.getHeight() + 100);
-    }
-
-    private void DefaultBoard(Graphics2D g) {
-      ColorTheme gmColor = new DefaultColorTheme();
-      Rectangle2D Box = this.getBoardRectangle();
-      g.setColor(gmColor.getFrameColor());
-      g.fill(Box);
-    }
-
-    private void LadderBoard(Graphics2D g) {
-      ColorTheme gmColor = new DefaultColorTheme();
-      Rectangle2D Box = this.getBoardRectangle();
-      g.setColor(gmColor.getLadderBackground());
-      g.fill(Box);
-
-      g.setFont(gmColor.getFontWinner());
-      g.setColor(gmColor.getFontColor());
-
-      Inf101Graphics.drawCenteredString(g, "Du trokket på en stige",0, 0, this.getWidth(), this.getHeight());
-    }
-
-    private void StumpBoard(Graphics2D g) {
-      BufferedImage boot = Inf101Graphics.loadImageFromResources("/boot.png");
-      Inf101Graphics.drawCenteredImage(g, boot, getWidth(), getHeight(), 0.15);
      
+  }
+
+    private void  drawEvent(Graphics2D g){
+      Rectangle2D eventRect = this.getEventRectangle();
+      BufferedImage eventImage = null;
+      GameInfo gameInfo = view.getGameInfo();
+
+      switch(gameInfo){
+        case DEFAULT:
+        eventImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
+          break;
+        case LADDER:
+        eventImage = Inf101Graphics.loadImageFromResources("/ladder.png");
+        Inf101Graphics.drawCenteredString(g, "Du trokket på en stige",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+          break;
+        case SNAKE:
+        eventImage = Inf101Graphics.loadImageFromResources("/snake.png");
+        Inf101Graphics.drawCenteredString(g, "Du trokket på en slange",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+          break;
+        case STUMP:
+        eventImage = Inf101Graphics.loadImageFromResources("/boot.png");
+        Inf101Graphics.drawCenteredString(g, "Du ble trokket på, du blir flyttet tilbake til start",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+          break;
+        case WINNER:
+        eventImage = Inf101Graphics.loadImageFromResources("/pokal.png");
+        Inf101Graphics.drawCenteredString(g, "Spiller bla bla vant!",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+          break;
+      }
+      double scale = (eventRect.getHeight() - 1) / eventImage.getHeight();
+      Inf101Graphics.drawImage(g, eventImage, eventRect.getX() + 1, eventRect.getY() + 1, scale);
+      g.setFont(colorTheme.getFont());
+      g.setColor(colorTheme.getFontColor());//whaaat??
+
     }
 
-    private void SankeBoard(Graphics2D g) {
-      ColorTheme gmColor = new DefaultColorTheme();
-      Rectangle2D Box = this.getBoardRectangle();
-      g.setColor(gmColor.getSnakeBackground());
-      g.fill(Box);
-
-      g.setFont(gmColor.getFontWinner());
-      g.setColor(gmColor.getFontColor());
-
-      Inf101Graphics.drawCenteredString(g, "Du trokket på en slange",0, 0, this.getWidth(), this.getHeight());
-    }
+    public Rectangle2D getEventRectangle() {
+      double width = getWidth();
+      double height = getHeight();
+      double size = Math.min(width, height) * 0.15;
+      double x = (width - size) / 2 - 150; // shifted left by 150
+      double y = height - size - 50;
+      return new Rectangle2D.Double(x, y, size, size);
+  }
       
       private Rectangle2D getBoardRectangle() {
         int boardWidth = (int) (getWidth() * 0.8); 
@@ -141,7 +121,7 @@ public class GridView extends JPanel {
       switch (diceState) {
         case ROLE:
           diceImage = Inf101Graphics.loadImageFromResources("/dice.png");
-          Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Trykk på ternignen for å starte spillet ", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,15);
           break;
         case ONE:
           diceImage = Inf101Graphics.loadImageFromResources("die_1.png");
@@ -175,14 +155,15 @@ public class GridView extends JPanel {
       // g.setColor(colorTheme.getFontColor());//whaaat??
     }
 
-      public Rectangle2D getDiceRectangle() {
-        double width = getWidth();
-        double height = getHeight();
-        double size = Math.min(width, height) * 0.15; 
-        double x = (width - size) / 2;
-        double y = height - size - 50;
-        return new Rectangle2D.Double(x, y, size, size);
-    }
+     
+    public Rectangle2D getDiceRectangle() {
+      double width = getWidth();
+      double height = getHeight();
+      double size = Math.min(width, height) * 0.15;
+      double x = (width - size) / 2 + 150; // shifted right by 150
+      double y = height - size - 50;
+      return new Rectangle2D.Double(x, y, size, size);
+  }
 
       private void setupMousePositionUpdater() {
         // Keep the mousePosition variable up to date

@@ -4,5 +4,6 @@ public enum GameInfo {
     LADDER,
     SNAKE,
     STUMP,
-    DEFAULT
+    DEFAULT,
+    WINNER,
 }

@@ -150,7 +150,7 @@ public class Playermodel implements ViewableModel{
     }
 
     public void Winner() {
-       gameState = GameState.GameOver;
+       gameInfo = GameInfo.WINNER;
     }
  
     public void nextPlayer(){

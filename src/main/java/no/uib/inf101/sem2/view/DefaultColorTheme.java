@@ -68,13 +68,13 @@ public class DefaultColorTheme implements ColorTheme{
 
     @Override
     public Color getLadderBackground() {
-        return new Color(0, 200, 0, 128);
+        return new Color(0, 150, 0, 128);
     }
 
 
     @Override
     public Color getSnakeBackground() {
-        return new Color(200, 0, 0, 128);
+        return new Color(150, 0, 0, 128);
     }
 
     
