@@ -17,7 +17,7 @@ public class ControllerMouseClicked implements MouseListener {
   private RandomThrow randomThrow = new RandomThrow();
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
-  private static final int ANIMATION_DELAY_MS = 200;
+  private static final int DELAY = 200;
   //private GameState gameState = GameState.GameActive;
   private GameState gameState = GameState.GameActive;
 
@@ -25,7 +25,7 @@ public class ControllerMouseClicked implements MouseListener {
     this.model = model;
     this.view = view;
     this.view.addMouseListener(this);
-    this.animationTimer = new Timer(ANIMATION_DELAY_MS, new ActionListener() {
+    this.animationTimer = new Timer(DELAY, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         animateSingleStep();
@@ -52,6 +52,8 @@ public class ControllerMouseClicked implements MouseListener {
       view.repaint();
     } else {
       model.SteppedOnLadder();
+      model.SteppedOnSnake();
+      model.stumpPlayer();
       gameState = GameState.GameActive;
       animationTimer.stop();
     }

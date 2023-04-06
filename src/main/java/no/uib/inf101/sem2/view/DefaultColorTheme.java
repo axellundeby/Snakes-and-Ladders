@@ -10,7 +10,7 @@ public class DefaultColorTheme implements ColorTheme{
     public Color getCellColor(char c) {
       Color color = switch(c) {
         case 'P' -> Color.BLACK;//spiller
-        case 'Q' -> Color.black;//spiller
+        case 'Q' -> Color.cyan;//spiller
         //.... fyll ut dine favorittfarger
         case '-' -> new Color(0, 0, 0, 37);
         default -> throw new IllegalArgumentException(

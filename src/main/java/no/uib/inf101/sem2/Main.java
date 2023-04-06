@@ -5,7 +5,7 @@ import no.uib.inf101.sem2.controller.ControllerMouseClicked;
 import no.uib.inf101.sem2.model.Board;
 import no.uib.inf101.sem2.model.PlayerFactory;
 import no.uib.inf101.sem2.model.Playermodel;
-import no.uib.inf101.sem2.model.RandomPlayer;
+import no.uib.inf101.sem2.model.StartPlayer;
 import no.uib.inf101.sem2.view.GridView;
 
 import javax.swing.JFrame;
@@ -15,7 +15,7 @@ public class Main {
   
   public static void main(String[] args) {
     Board board = new Board(10,10); 
-    PlayerFactory player = new RandomPlayer();
+    PlayerFactory player = new StartPlayer();
     Playermodel model = new Playermodel(board, player, player.getNext());
     GridView view = new GridView(model);
     new ControllerMouseClicked(model, view);
