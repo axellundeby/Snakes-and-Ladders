@@ -147,16 +147,24 @@ public class Playermodel implements ViewableModel{
     }
 
     public void Winner() {
-        
        gameState = GameState.GameOver;
     }
  
     public void nextPlayer(){
-            this.CurrentPlayer = factory.getNext();
-            this.CurrentPlayer = CurrentPlayer.spawnPlayer(board);
+        this.CurrentPlayer = factory.getNext();
+        this.CurrentPlayer = CurrentPlayer.spawnPlayer(board);
     }
+
+    public void turn(){
+
+    }
+
     @Override
     public GameState getGamestate() {
         return gameState;
+    }
+    //om en spiller går på en annen spiller, flyttes den til start
+    public void stumpPlayer() {
+        
     }
 }
