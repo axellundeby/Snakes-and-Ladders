@@ -106,58 +106,79 @@ public class Playermodel implements ViewableModel{
     public void SteppedOnSnake() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
-        gameInfo = GameInfo.SNAKE;
 
-        if (row == 9 && col == 1) {
-            movePlayerTo(4, 0);//
-        } else if (row == 8 && col == 8) {
-            movePlayerTo(5, 7);//
-        } else if (row == 7 && col == 4) {
-            movePlayerTo(5, 2);
-        } else if (row == 6 && col == 5) {
-            movePlayerTo(4, 4);//
-        } else if (row == 5 && col == 6) {
-             movePlayerTo(3, 9);//
-        } else if (row == 4 && col == 2) {
-            movePlayerTo(1, 2);//
-        } else if (row == 3 && col == 0) {
-            movePlayerTo(0, 2);//
-        } else if (row == 2 && col == 6) {
-            movePlayerTo(0, 4);//
+        if (row == 0 && col == 1) {//slange1
+            movePlayerTo(5, 0);
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 1 && col == 8) {
+            movePlayerTo(4, 7);//slange 2
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 2 && col == 4) {
+            movePlayerTo(4, 2);//slange 3
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 3 && col == 5) {
+            movePlayerTo(5, 4);//
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 4 && col == 6) {
+             movePlayerTo(6, 9);//
+             gameInfo = GameInfo.SNAKE;
+        } else if (row == 5 && col == 2) {
+            movePlayerTo(9, 2);//
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 6 && col == 0) {
+            movePlayerTo(9, 2);//
+            gameInfo = GameInfo.SNAKE;
+        } else if (row == 7 && col == 6) {
+            movePlayerTo(9, 4);//
+            gameInfo = GameInfo.SNAKE;
         }
      }
 
      public void SteppedOnLadder() {
         int row = CurrentPlayer.getPos().row();
         int col = CurrentPlayer.getPos().col();
-        gameInfo = GameInfo.LADDER;
-    
-        if (row == 0 && col == 3) {
-            movePlayerTo(2, 4);
-        } else if (row == 1 && col == 7) {
-            movePlayerTo(4, 5);
-        } else if (row == 3 && col == 7) {
-            movePlayerTo(4, 8);
-        } else if (row == 4 && col == 1) {
-            movePlayerTo(6, 2);
-        } else if (row == 4 && col == 9) {
-            movePlayerTo(6, 8);
-        } else if (row == 6 && col == 1) {
-            movePlayerTo(8, 0);
-        } else if (row == 7 && col == 6) {
-            movePlayerTo(9, 8);
+        if (row == 9 && col == 3) {
+            movePlayerTo(7, 4);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 8 && col == 7) {
+            movePlayerTo(5, 5);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 6 && col == 7) {
+            movePlayerTo(5, 8);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 5 && col == 1) {
+            movePlayerTo(3, 2);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 5 && col == 9) {
+            movePlayerTo(3, 8);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 3 && col == 1) {
+            movePlayerTo(1, 0);
+            gameInfo = GameInfo.LADDER;
+        } else if (row == 2 && col == 6) {
+            movePlayerTo(0, 8);
+            gameInfo = GameInfo.LADDER;
         }
     }
 
     public void Winner() {
-       gameInfo = GameInfo.WINNER;
+        int row = CurrentPlayer.getPos().row();
+        int col = CurrentPlayer.getPos().col();
+        if(row<=0 && col<=0){
+            gameInfo = GameInfo.WINNER;
+            gameState = GameState.GameInActive;
+        }
     }
- 
-    public void nextPlayer(){
+    
+    
+    public void PlayerAppear(){
         Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
         CurrentPlayer = CurrentPlayerTemp;
     }
 
+
+    
+    //må fikse tur system mellom 2 spillere
     public void turn(){
 
     }

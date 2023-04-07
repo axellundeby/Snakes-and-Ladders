@@ -6,7 +6,6 @@ import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.DiceState;
 import no.uib.inf101.sem2.model.GameInfo;
-import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.ViewableModel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -75,15 +74,15 @@ public class GridView extends JPanel {
           break;
         case LADDER:
         eventImage = Inf101Graphics.loadImageFromResources("/ladder.png");
-        Inf101Graphics.drawCenteredString(g, "Du trokket på en stige",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+        Inf101Graphics.drawCenteredString(g, "Du tråkket på en stige",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
           break;
         case SNAKE:
         eventImage = Inf101Graphics.loadImageFromResources("/snake.png");
-        Inf101Graphics.drawCenteredString(g, "Du trokket på en slange",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+        Inf101Graphics.drawCenteredString(g, "Du tråkket på en slange",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
           break;
         case STUMP:
         eventImage = Inf101Graphics.loadImageFromResources("/boot.png");
-        Inf101Graphics.drawCenteredString(g, "Du ble trokket på, du blir flyttet tilbake til start",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+        Inf101Graphics.drawCenteredString(g, "Du ble tråkket på, du blir flyttet tilbake til start",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
           break;
         case WINNER:
         eventImage = Inf101Graphics.loadImageFromResources("/pokal.png");
@@ -101,8 +100,8 @@ public class GridView extends JPanel {
       double width = getWidth();
       double height = getHeight();
       double size = Math.min(width, height) * 0.15;
-      double x = (width - size) / 2 - 150; // shifted left by 150
-      double y = height - size - 50;
+      double x = (width - size) / 2 - 70; 
+      double y = height - size - 60;
       return new Rectangle2D.Double(x, y, size, size);
   }
       
@@ -160,8 +159,8 @@ public class GridView extends JPanel {
       double width = getWidth();
       double height = getHeight();
       double size = Math.min(width, height) * 0.15;
-      double x = (width - size) / 2 + 150; // shifted right by 150
-      double y = height - size - 50;
+      double x = (width - size) / 2 + 70;
+      double y = height - size - 60;
       return new Rectangle2D.Double(x, y, size, size);
   }
 

@@ -16,30 +16,6 @@ public class RandomThrow implements nextThrow {
         int eyes = random.nextInt(6) + 1;
         return eyes;
     }
-
-    // public void nextThrow(int eyes){
-    //     if (eyes == 1){
-    //         diceState = DiceState.ONE;
-    //     }
-    //     else if (eyes == 2){
-    //         diceState = DiceState.TWO;
-    //     }
-    //     else if (eyes == 3){
-    //         diceState = DiceState.THREE;
-    //     }
-    //     else if (eyes == 4){
-    //         diceState = DiceState.FOUR;
-    //     }
-    //     else if (eyes == 5){
-    //         diceState = DiceState.FIVE;
-    //     }
-    //     else if (eyes == 6){
-    //         diceState = DiceState.SIX;
-    //     }
-    // }
-    // public DiceState getDiceState(){
-    //     return diceState;
-    // }
 }
     
 
