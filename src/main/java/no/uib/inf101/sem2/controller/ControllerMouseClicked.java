@@ -44,7 +44,7 @@ public class ControllerMouseClicked implements MouseListener {
       gameInfo = GameInfo.DEFAULT;//når kastet setter ikke enumet seg til riktig verdi
       int eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
-      //model.PlayerAppear(); //neste spiller sin tur når en terning er rullet
+      //neste spiller sin tur når en terning er rullet
       diceEyesToAnimate = eyes;
       gameState = GameState.ANIMATE;
       animationTimer.start();
@@ -60,6 +60,8 @@ public class ControllerMouseClicked implements MouseListener {
       model.SteppedOnSnake();
       model.SteppedOnLadder();
       model.Winner();
+      model.PlayerAppear(); 
+      model.turn();
       //model.stumpPlayer();//noe gæli her
       gameState = GameState.GameActive;
       animationTimer.stop();

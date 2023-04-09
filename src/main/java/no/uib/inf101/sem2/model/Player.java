@@ -15,6 +15,7 @@ public final class Player implements Iterable<GridCell<Character>> {
 
     static final String PLAYER_1 = "P";
     static final String PLAYER_2 = "Q";
+    static final String PLAYER_3 = "B";
 
     public Player(char c, String playerID, CellPosition pos) {
         this.c = c;
@@ -28,6 +29,7 @@ public final class Player implements Iterable<GridCell<Character>> {
         String playerID = switch (c) {
             case 'P' -> PLAYER_1;
             case 'Q' -> PLAYER_2;
+            case 'B' -> PLAYER_3;
             default -> throw new IllegalArgumentException(
                 "Denne spilleren er ikke gyldig");
         };
@@ -79,6 +81,10 @@ public final class Player implements Iterable<GridCell<Character>> {
     }
     public void setPos(CellPosition pos) {
         this.pos = pos;
+    }
+
+    public Player getPlayer() {
+        return new Player(c, playerID, pos);
     }
     
 }

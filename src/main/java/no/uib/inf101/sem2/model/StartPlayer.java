@@ -9,6 +9,7 @@ public class StartPlayer implements PlayerFactory {
     public StartPlayer() {
         this.playerSymbols = new ArrayList<Character>();
         playerSymbols.add('P');
+        playerSymbols.add('B');
         playerSymbols.add('Q');
     }
 
@@ -22,5 +23,8 @@ public class StartPlayer implements PlayerFactory {
         playerSymbols.remove(0);
 
         return Player.newPlayer(playerSymbol);
+    }
+    public boolean hasMorePlayers() {
+        return !playerSymbols.isEmpty();
     }
 }

@@ -1,22 +1,29 @@
 package no.uib.inf101.sem2.model;
+import java.util.Arrays;
+import java.util.List;
+
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
-public class Playermodel implements ViewableModel{
+public class Playermodel implements ViewableModel, PlayerFactory{
     Board board;
-    Player CurrentPlayer;
+    Player players;
     PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameActive;
     private GameInfo gameInfo = GameInfo.DEFAULT;
-    
+
+    private int PlayerListIndex = 0;
+    private List<Player> PlayerList = Arrays.asList(players.getPlayer());//liste med alle spillere 
+    private Player player = PlayerList.get(PlayerListIndex);//player 1
+     
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
         this.board = board;
         this.factory = factory;
-        this.CurrentPlayer = factory.getNext();
-        this.CurrentPlayer = player.spawnPlayer(board);
+        this.player = factory.getNext();
+        this.player = player.spawnPlayer(board);
     }
     @Override
     public GridDimension getDimension(){
@@ -29,7 +36,7 @@ public class Playermodel implements ViewableModel{
     }
     @Override
     public Iterable<GridCell<Character>> getPiece() {
-       return CurrentPlayer;
+       return player;
     }
 
     @Override
@@ -59,17 +66,17 @@ public class Playermodel implements ViewableModel{
     }
 
     private void movePlayer(int deltaRow, int deltaCol) {
-        Player ShapeCopy = CurrentPlayer.shiftedBy(deltaRow, deltaCol);
-        this.CurrentPlayer = ShapeCopy;
+        Player ShapeCopy = player.shiftedBy(deltaRow, deltaCol);
+        this.player = ShapeCopy;
     
     }
     private void movePlayerTo(int row, int col) {
-        CurrentPlayer.setPos(new CellPosition(row, col));
+        player.setPos(new CellPosition(row, col));
     }
 
     public void PlayerJump() {
-        int PlayerRow = CurrentPlayer.getPos().row();
-        int PlayerCol = CurrentPlayer.getPos().col();
+        int PlayerRow = player.getPos().row();
+        int PlayerCol = player.getPos().col();
         if(PlayerRow % 2 != 0){
             if (PlayerCol == 9){
                 PlayerOnEdge();
@@ -104,8 +111,8 @@ public class Playermodel implements ViewableModel{
     }
     //må sjekke om en spiller er på et felt, når landet
     public void SteppedOnSnake() {
-        int row = CurrentPlayer.getPos().row();
-        int col = CurrentPlayer.getPos().col();
+        int row = player.getPos().row();
+        int col = player.getPos().col();
 
         if (row == 0 && col == 1) {//slange1
             movePlayerTo(5, 0);
@@ -135,8 +142,8 @@ public class Playermodel implements ViewableModel{
      }
 
      public void SteppedOnLadder() {
-        int row = CurrentPlayer.getPos().row();
-        int col = CurrentPlayer.getPos().col();
+        int row = player.getPos().row();
+        int col = player.getPos().col();
         if (row == 9 && col == 3) {
             movePlayerTo(7, 4);
             gameInfo = GameInfo.LADDER;
@@ -162,25 +169,28 @@ public class Playermodel implements ViewableModel{
     }
 
     public void Winner() {
-        int row = CurrentPlayer.getPos().row();
-        int col = CurrentPlayer.getPos().col();
-        if(row<=0 && col<=0){
+        int row = player.getPos().row();
+        int col = player.getPos().col();
+        if(row<0 || col<0){
             gameInfo = GameInfo.WINNER;
             gameState = GameState.GameInActive;
         }
     }
     
-    
     public void PlayerAppear(){
-        Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
-        CurrentPlayer = CurrentPlayerTemp;
+        if(!factory.hasMorePlayers()){
+            Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
+            player = CurrentPlayerTemp;
+        }
     }
 
-
-    
-    //må fikse tur system mellom 2 spillere
     public void turn(){
-
+        if (PlayerListIndex >= PlayerList.size() - 1) {
+            PlayerListIndex = 0;
+        } else {
+            PlayerListIndex++;
+            player = PlayerList.get(PlayerListIndex);
+        }
     }
 
     @Override
@@ -189,7 +199,7 @@ public class Playermodel implements ViewableModel{
     }
     //om en spiller går på en annen spiller, flyttes den til start
     public void stumpPlayer() {
-        CellPosition pos = CurrentPlayer.getPos();
+        CellPosition pos = player.getPos();
         if(board.get(pos) == '-'){
             movePlayer(9, 0);
         }
@@ -198,4 +208,13 @@ public class Playermodel implements ViewableModel{
     public GameInfo getGameInfo() {
         return gameInfo;
     }
+    @Override
+    public Player getNext() {
+        return getNext();
+    }
+    @Override
+    public boolean hasMorePlayers() {
+        return hasMorePlayers();
+    }
+    
 }
