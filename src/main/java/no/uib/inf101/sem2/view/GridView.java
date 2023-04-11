@@ -6,12 +6,14 @@ import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 import no.uib.inf101.sem2.model.DiceState;
 import no.uib.inf101.sem2.model.GameInfo;
+import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.ViewableModel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -41,27 +43,138 @@ public class GridView extends JPanel {
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      drawBoard(g2);
-      drawDice(g2);
-      getEventRectangle();
-      drawEvent(g2);
+      if(view.getGamestate() == GameState.GameActive){//om spillet er aktivt
+        drawBoard(g2);
+        drawDice(g2);
+        drawEvent(g2);
+      }
+      
+      else if(view.getGamestate() == GameState.GameInActive){//om spillet ikke er aktivt
+        startGame(g2);
+        drawFourPlayer(g2);
+        drawThreePlayer(g2);
+        drawTwoPlayer(g2);
+        drawStartGame(g2);
+      }
     }
+
+    //startscreen, start knapp, regler, kanskje antall spillere
+    private void startGame(Graphics2D g) {
+      ColorTheme StartColor = new DefaultColorTheme();
+      g.setColor(StartColor.getStartBackgroundColor());
+      g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+      g.setFont(StartColor.getStartBackgroundFont());
+      g.setColor(StartColor.getStartFontColor());
+
+      Inf101Graphics.drawCenteredString(g, "Axels fantastiske stigespill",0, 0, this.getWidth()-200, this.getHeight()); 
+    }
+
+//når man trykker innen for firkanten henter den gjør den spillet aktivt, spillet må starte innaktivt
+    public RoundRectangle2D getStartBoxRectangle() {
+      double width = getWidth();
+      double height = getHeight();
+      double size = Math.min(width, height) * 0.15;
+      double x = (width - size) / 2 - 70; 
+      double y = height - size - 60;
+      return new RoundRectangle2D.Double(x, y, size, size,30,20);
+    }
+
+  //når bruker trykker på firkant henter den antall spillere 
+    public RoundRectangle2D getThreePlayerBoxRectangle() {
+      double width = getWidth();
+      double height = getHeight();
+      double size = Math.min(width, height) * 0.15;
+      double x = (width - size) / 2 - 70; 
+      double y = height - size;
+      return new RoundRectangle2D.Double(x, y, size, size,30,20);
+    }
+    public RoundRectangle2D getTwoPlayerBoxRectangle() {
+      double width = getWidth();
+      double height = getHeight();
+      double size = Math.min(width, height) * 0.15;
+      double x = (width - size) / 2 - 70 - size - 20; 
+      double y = height - size;
+      return new RoundRectangle2D.Double(x, y, size, size,30,20);
+  }
+
+  public RoundRectangle2D getFourPlayerBoxRectangle() {
+    double width = getWidth();
+    double height = getHeight();
+    double size = Math.min(width, height) * 0.15;
+    double x = (width - size) / 2 - 70 + size + 20; 
+    double y = height - size;
+    return new RoundRectangle2D.Double(x, y, size, size,30,20);
+}
+
+//pynt på boksene her 
+ private void drawFourPlayer(Graphics2D g) {
+    RoundRectangle2D boxRect = this.getFourPlayerBoxRectangle();
+    ColorTheme StartColor = new DefaultColorTheme();
+    g.setFont(StartColor.getStartBackgroundFont());
+    g.setColor(StartColor.getStartFontColor());
+    Inf101Graphics.drawCenteredString(g, "4 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+ }
+ private void drawThreePlayer(Graphics2D g) {
+  RoundRectangle2D boxRect = this.getThreePlayerBoxRectangle();
+  ColorTheme StartColor = new DefaultColorTheme();
+  g.setFont(StartColor.getStartBackgroundFont());
+  g.setColor(StartColor.getStartFontColor());
+  Inf101Graphics.drawCenteredString(g, "3 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+}
+
+private void drawTwoPlayer(Graphics2D g) {
+  RoundRectangle2D boxRect = this.getTwoPlayerBoxRectangle();
+  ColorTheme StartColor = new DefaultColorTheme();
+  g.setFont(StartColor.getStartBackgroundFont());
+  g.setColor(StartColor.getStartFontColor());
+  Inf101Graphics.drawCenteredString(g, "2 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+}
+
+private void drawStartGame(Graphics2D g) {
+  RoundRectangle2D boxRect = this.getStartBoxRectangle();
+  ColorTheme StartColor = new DefaultColorTheme();
+  g.setFont(StartColor.getStartBackgroundFont());
+  g.setColor(StartColor.getStartFontColor());
+  Inf101Graphics.drawCenteredString(g, "Trykk her for å starte spillet", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+}
+    
+    
 
     /**
      * draws the box where the cells are defined
      * @param g
      */
-    private void drawBoard(Graphics2D g) {//boksen blir ikke mindre når jeg endrer størrelsen på vinduet
-      Rectangle2D boardBox = this.getBoardRectangle();
-      double scale = (boardBox.getHeight() - 1)/boardImage.getHeight();
-      Inf101Graphics.drawImage(g, boardImage, boardBox.getX() + 1, boardBox.getY() + 1, scale);
-      
-      GridDimension dimension = view.getDimension();
-      CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
-      drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
-      drawCells(g, view.getPiece(), converter, colorTheme);//tegner brikke
+  private void drawBoard(Graphics2D g) {//boksen blir ikke mindre når jeg endrer størrelsen på vinduet
+        Rectangle2D boardBox = this.getBoardRectangle();
+        double scale = (boardBox.getHeight() - 1)/boardImage.getHeight();
+        Inf101Graphics.drawImage(g, boardImage, boardBox.getX() + 1, boardBox.getY() + 1, scale);
+        
+        GridDimension dimension = view.getDimension();
+        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
+        drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
+        drawCells(g, view.getPiece(), converter, colorTheme);
      
   }
+
+  private Rectangle2D getBoardRectangle() {
+    int boardWidth = (int) (getWidth() * 0.8); 
+    int boardHeight = (int) (boardWidth * (boardImage.getHeight() / boardImage.getWidth()));
+    int boardX = (getWidth() - boardWidth) / 2;
+    int boardY = yMargin;
+    return new Rectangle2D.Double(boardX, boardY, boardWidth, boardHeight);
+ }
+
+  private void drawCells(Graphics2D g, Iterable<GridCell<Character>> grid, CellPositionToPixelConverter converter, ColorTheme colorTheme) {
+    for (GridCell<Character> cell : grid) {
+    CellPosition cordinate = cell.pos();
+    Ellipse2D rectangle = converter.getBoundsForCell(cordinate);
+    
+    Color color = colorTheme.getCellColor(cell.value());
+    g.setColor(color);
+    g.fill(rectangle);
+    }
+}
 
     private void  drawEvent(Graphics2D g){
       Rectangle2D eventRect = this.getEventRectangle();
@@ -105,13 +218,6 @@ public class GridView extends JPanel {
       return new Rectangle2D.Double(x, y, size, size);
   }
       
-      private Rectangle2D getBoardRectangle() {
-        int boardWidth = (int) (getWidth() * 0.8); 
-        int boardHeight = (int) (boardWidth * (boardImage.getHeight() / boardImage.getWidth()));
-        int boardX = (getWidth() - boardWidth) / 2;
-        int boardY = yMargin;
-        return new Rectangle2D.Double(boardX, boardY, boardWidth, boardHeight);
-     }
     
      private void drawDice(Graphics2D g) {
       Rectangle2D diceRect = this.getDiceRectangle();
@@ -150,8 +256,7 @@ public class GridView extends JPanel {
       
       double scale = (diceRect.getHeight() - 1) / diceImage.getHeight();
       Inf101Graphics.drawImage(g, diceImage, diceRect.getX() + 1, diceRect.getY() + 1, scale);
-      // g.setFont(colorTheme.getFont());
-      // g.setColor(colorTheme.getFontColor());//whaaat??
+
     }
 
      
@@ -170,6 +275,10 @@ public class GridView extends JPanel {
           @Override
           public void mouseMoved(MouseEvent e) {
             mouseIsInTheRectangle = getDiceRectangle().contains(e.getPoint());
+            mouseIsInTheRectangle = getStartBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRectangle = getFourPlayerBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRectangle = getThreePlayerBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRectangle = getTwoPlayerBoxRectangle().contains(e.getPoint());
             updateCursor();
             repaint();
           }
@@ -183,15 +292,4 @@ public class GridView extends JPanel {
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
       }
-
-    private void drawCells(Graphics2D g, Iterable<GridCell<Character>> grid, CellPositionToPixelConverter converter, ColorTheme colorTheme) {
-        for (GridCell<Character> cell : grid) {
-        CellPosition cordinate = cell.pos();
-        Ellipse2D rectangle = converter.getBoundsForCell(cordinate);
-        
-        Color color = colorTheme.getCellColor(cell.value());
-        g.setColor(color);
-        g.fill(rectangle);
-        }
-    }
 }
