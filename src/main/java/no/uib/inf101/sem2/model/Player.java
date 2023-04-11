@@ -83,7 +83,7 @@ public final class Player implements Iterable<GridCell<Character>> {
         this.pos = pos;
     }
 
-//løkke med antall spillere 
+//løkke som dytter spillere inn i en liste, listen skal iterere for amountOfPlayers
     public Player getPlayer() {
     // for (int j = 0; j < 3; j++) {
         return new Player(c, playerID, pos);
