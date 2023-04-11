@@ -24,6 +24,7 @@ public class StartPlayer implements PlayerFactory {
 
         return Player.newPlayer(playerSymbol);
     }
+    //er dette ok?
     public boolean hasMorePlayers() {
         return !playerSymbols.isEmpty();
     }

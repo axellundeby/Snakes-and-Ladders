@@ -11,7 +11,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     Player players;
     PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
-    private GameState gameState = GameState.GameActive;
+    private GameState gameState = GameState.GameInActive;//spillet starter inaktivt
     private GameInfo gameInfo = GameInfo.DEFAULT;
 
     private int PlayerListIndex = 0;
@@ -43,8 +43,12 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public DiceState getDiceState() {
         return diceState;
     }
-   
-    public void updateDiceNumber(int eyes) {
+   /**
+    * This method updates the state of the dice based on the number of eyes that show up after rolling.
+    * @param eyes  An integer value between 1 and 6, which represents the number of eyes that show up on the rolled dice.
+    */
+
+    public void updateDiceNumber(int eyes) {//kan være private?
         if (eyes == 1){
             diceState = DiceState.ONE;
         }
@@ -64,16 +68,21 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             diceState = DiceState.SIX;
         }
     }
+   
 
-    private void movePlayer(int deltaRow, int deltaCol) {
-        Player ShapeCopy = player.shiftedBy(deltaRow, deltaCol);
+    private void movePlayer(int MoveToRow, int MoveTocol) {
+        Player ShapeCopy = player.shiftedBy(MoveToRow, MoveTocol);
         this.player = ShapeCopy;
     
     }
-    private void movePlayerTo(int row, int col) {
-        player.setPos(new CellPosition(row, col));
+
+    private void movePlayerTo(int MoveToRow, int MoveToCol) {
+        player.setPos(new CellPosition(MoveToRow, MoveToCol));
     }
 
+    /**
+     * This method moves the player right if the row is even and left if it is odd, if the player is on the edge of the board it moves the player up.
+     */
     public void PlayerJump() {
         int PlayerRow = player.getPos().row();
         int PlayerCol = player.getPos().col();
@@ -88,9 +97,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         else{
             if (PlayerCol == 0){
                 PlayerOnEdge();
-            }
-            else if(PlayerRow < 0 && PlayerCol < 0){
-                Winner();
             }
             else{
                 movePlayerLeft();
@@ -109,38 +115,46 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     private void PlayerOnEdge(){       
         movePlayer(-1,0);
     }
-    //må sjekke om en spiller er på et felt, når landet
+
+
+    /**
+     * This method checks if the player is on a snake and moves the player accordingly.
+     */
+
     public void SteppedOnSnake() {
         int row = player.getPos().row();
         int col = player.getPos().col();
 
-        if (row == 0 && col == 1) {//slange1
+        if (row == 0 && col == 1) {
             movePlayerTo(5, 0);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 1 && col == 8) {
-            movePlayerTo(4, 7);//slange 2
+            movePlayerTo(4, 7);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 2 && col == 4) {
-            movePlayerTo(4, 2);//slange 3
+            movePlayerTo(4, 2);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 3 && col == 5) {
-            movePlayerTo(5, 4);//
+            movePlayerTo(5, 4);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 4 && col == 6) {
-             movePlayerTo(6, 9);//
+             movePlayerTo(6, 9);
              gameInfo = GameInfo.SNAKE;
         } else if (row == 5 && col == 2) {
-            movePlayerTo(9, 2);//
+            movePlayerTo(9, 2);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 6 && col == 0) {
-            movePlayerTo(9, 2);//
+            movePlayerTo(9, 2);
             gameInfo = GameInfo.SNAKE;
         } else if (row == 7 && col == 6) {
-            movePlayerTo(9, 4);//
+            movePlayerTo(9, 4);
             gameInfo = GameInfo.SNAKE;
         }
      }
 
+    /**
+     * This method checks if the player is on a ladder and moves the player accordingly.
+     */
      public void SteppedOnLadder() {
         int row = player.getPos().row();
         int col = player.getPos().col();
@@ -167,16 +181,22 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             gameInfo = GameInfo.LADDER;
         }
     }
+    /**
+     * this method checks if the player is out of the grid if so, the player wins.
+     */
 
     public void Winner() {
         int row = player.getPos().row();
         int col = player.getPos().col();
         if(row<0 || col<0){
             gameInfo = GameInfo.WINNER;
-            gameState = GameState.GameInActive;
+            //hente ut vinner sende d til viewet
         }
     }
-    
+
+    /**
+     * this method makes another player appear if there are no more players left.
+     */
     public void PlayerAppear(){
         if(!factory.hasMorePlayers()){
             Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
@@ -184,7 +204,10 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         }
     }
 
-    public void turn(){
+    /**
+     * This method chenges the players turn, by changing the index of the player in the playerlist.
+     */
+    public void PlayerTurn(){
         if (PlayerListIndex >= PlayerList.size() - 1) {
             PlayerListIndex = 0;
         } else {
@@ -197,17 +220,23 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public GameState getGamestate() {
         return gameState;
     }
-    //om en spiller går på en annen spiller, flyttes den til start
+
+    //om en spiller går på en annen spiller, flyttes den til en tilfeldig posisjon under rad 7
     public void stumpPlayer() {
+        int randomrow = (int) (Math.random() * 3) + 7;
+        int randomCol = (int) (Math.random() * 10);
         CellPosition pos = player.getPos();
         if(board.get(pos) == '-'){
-            movePlayer(9, 0);
+            movePlayer(randomrow, randomCol);
+            gameInfo = GameInfo.STUMP;
         }
     }
     @Override
     public GameInfo getGameInfo() {
         return gameInfo;
     }
+
+    //er dette riktig? sjekk for StartPLayer
     @Override
     public Player getNext() {
         return getNext();

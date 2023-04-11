@@ -20,11 +20,12 @@ public class ControllerMouseClicked implements MouseListener {
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
   private static final int DELAY = 200;
-  private GameState gameState = GameState.GameActive;
+  private GameState gameState = GameState.GameInActive;
   private GameInfo gameInfo = GameInfo.DEFAULT;
   private final GameSong song = new GameSong();
   public int amountOfplayers = 2;
   
+  //hvorfor har jeg interface her?
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
     this.view = view;
@@ -77,7 +78,7 @@ public class ControllerMouseClicked implements MouseListener {
       model.SteppedOnLadder();
       model.Winner();
       model.PlayerAppear(); 
-      model.turn();
+      model.PlayerTurn();
       //model.stumpPlayer();//noe gæli her
       gameState = GameState.GameActive;
       animationTimer.stop();
