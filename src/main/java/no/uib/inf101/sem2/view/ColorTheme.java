@@ -20,10 +20,11 @@ public interface ColorTheme {
      Color getWinnerBackground();
 
      Font getFontWinner();
-     
-     Color getLadderBackground();
-     
-     Color getSnakeBackground();
 
+     Color getStartBackgroundColor();
+
+     Font getStartBackgroundFont();
+
+     Color getStartFontColor();
 
 }   

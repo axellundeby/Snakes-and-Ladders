@@ -23,6 +23,7 @@ public class ControllerMouseClicked implements MouseListener {
   private GameState gameState = GameState.GameActive;
   private GameInfo gameInfo = GameInfo.DEFAULT;
   private final GameSong song = new GameSong();
+  public int amountOfplayers = 2;
   
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
@@ -48,8 +49,23 @@ public class ControllerMouseClicked implements MouseListener {
       diceEyesToAnimate = eyes;
       gameState = GameState.ANIMATE;
       animationTimer.start();
+      view.repaint();
     }
-    view.repaint();
+    else if (gameState == GameState.GameInActive){
+      if(view.getStartBoxRectangle().contains(e.getPoint())){
+        gameState = GameState.GameActive;
+        view.repaint();
+      }
+      else if (view.getThreePlayerBoxRectangle().contains(e.getPoint())){
+          amountOfplayers = 3;
+      }
+      else if (view.getFourPlayerBoxRectangle().contains(e.getPoint())){
+          amountOfplayers = 4;
+      }
+      else if (view.getTwoPlayerBoxRectangle().contains(e.getPoint())){
+          amountOfplayers = 2;
+      }
+    }
   }
 
   private void animateSingleStep() {

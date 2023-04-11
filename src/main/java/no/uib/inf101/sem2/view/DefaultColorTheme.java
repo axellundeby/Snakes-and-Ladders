@@ -66,15 +66,20 @@ public class DefaultColorTheme implements ColorTheme{
     }
 
 
+
     @Override
-    public Color getLadderBackground() {
-        return new Color(0, 150, 0, 128);
+    public Color getStartBackgroundColor() {
+        return new Color(250, 163, 0);
     }
 
+    @Override
+    public Font getStartBackgroundFont() {
+        return new Font("Serif", Font.BOLD, 5);
+    }
 
     @Override
-    public Color getSnakeBackground() {
-        return new Color(150, 0, 0, 128);
+    public Color getStartFontColor() {
+        return new Color(255, 98, 1);
     }
 
     
