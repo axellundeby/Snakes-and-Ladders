@@ -20,10 +20,10 @@ public class ControllerMouseClicked implements MouseListener {
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
   private static final int DELAY = 200;
-  private GameState gameState = GameState.GameInActive;
+  private GameState gameState = GameState.GameActive;//starter inActive
   private GameInfo gameInfo = GameInfo.DEFAULT;
   private final GameSong song = new GameSong();
-  public int amountOfplayers = 2;
+  public static int amountOfplayers = 2;//må hentes til modellen
   
   //hvorfor har jeg interface her?
   public ControllerMouseClicked(Playermodel model, GridView view) {
@@ -55,7 +55,6 @@ public class ControllerMouseClicked implements MouseListener {
     else if (gameState == GameState.GameInActive){
       if(view.getStartBoxRectangle().contains(e.getPoint())){
         gameState = GameState.GameActive;
-        view.repaint();
       }
       else if (view.getThreePlayerBoxRectangle().contains(e.getPoint())){
           amountOfplayers = 3;
@@ -66,7 +65,9 @@ public class ControllerMouseClicked implements MouseListener {
       else if (view.getTwoPlayerBoxRectangle().contains(e.getPoint())){
           amountOfplayers = 2;
       }
+      System.out.println("amount of players: " + amountOfplayers);
     }
+    view.repaint();
   }
 
   private void animateSingleStep() {
@@ -84,6 +85,11 @@ public class ControllerMouseClicked implements MouseListener {
       animationTimer.stop();
     }
     view.repaint();
+  }
+
+
+  public static int getamountOfPlayers(){
+    return amountOfplayers;
   }
 
   @Override

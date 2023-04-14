@@ -37,4 +37,6 @@ public interface ColorTheme {
      */
      Color getStartFontColor();
 
+     Color getBoxColor();
+
 }   

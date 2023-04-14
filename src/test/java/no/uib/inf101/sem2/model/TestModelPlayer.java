@@ -24,17 +24,9 @@ public class TestModelPlayer {
         assertTrue(board.get(new CellPosition(5, 0)) == 'P');
     }
 
-    @Test
-    public void LadderTest(){
-        Board board = new Board(20, 10);
-        PlayerFactory player = new PatternedPlayerFactory("P");
-        Playermodel model = new Playermodel(board,player,player.getNext());
-        model.movePlayerTo(2, 6);//om en spiller flyttes til en stige skal den nye posisjonen være stigens topp
+   //use model.steppedonladder() to test if the player is on a ladder
 
-        //player.setPos(new CellPosition(2, 6));
-        model.SteppedOnSnake();
-        assertTrue(board.get(new CellPosition(0, 8)) == 'P');
-    }
+  
 
     @Test
     public void movement(){

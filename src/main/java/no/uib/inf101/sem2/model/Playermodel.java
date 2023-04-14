@@ -1,30 +1,37 @@
 package no.uib.inf101.sem2.model;
-import java.util.Arrays;
 import java.util.List;
 
+import no.uib.inf101.sem2.controller.ControllerMouseClicked;
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
 public class Playermodel implements ViewableModel, PlayerFactory{
-    Board board;
-    Player players;
-    PlayerFactory factory;
+    private Board board;
+    private PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
-    private GameState gameState = GameState.GameInActive;//spillet starter inaktivt
+    private GameState gameState = GameState.GameActive;
     private GameInfo gameInfo = GameInfo.DEFAULT;
-
+    
     private int PlayerListIndex = 0;
-    private List<Player> PlayerList = Arrays.asList(players.getPlayer());//liste med alle spillere 
-    private Player player = PlayerList.get(PlayerListIndex);//player 1
+    private List<Player> PlayerList;
+    private Player player;
+    
      
+//currentPlayer = playerList.get(playerListIndex % playerList.size());
+    
+
+// set num players(int)
+// hente liste fra factory med spillere - gjort?
 
     public Playermodel(Board board, PlayerFactory factory, Player player){
         this.board = board;
         this.factory = factory;
-        this.player = factory.getNext();
-        this.player = player.spawnPlayer(board);
+        this.PlayerList = factory.getPlayerList();
+        this.player = PlayerList.get(PlayerListIndex);
+        
     }
+
     @Override
     public GridDimension getDimension(){
         return this.board;
@@ -190,29 +197,30 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         int col = player.getPos().col();
         if(row<0 || col<0){
             gameInfo = GameInfo.WINNER;
-            //hente ut vinner sende d til viewet
+            gameState=GameState.disbaleDice;
         }
     }
 
     /**
      * this method makes another player appear if there are no more players left.
      */
+    //denne metoden er det også krøll i tror jeg, trenger jeg den om jeg har amout of players?
     public void PlayerAppear(){
         if(!factory.hasMorePlayers()){
-            Player CurrentPlayerTemp = factory.getNext().spawnPlayer(board);
+            Player CurrentPlayerTemp = factory.getNext();
             player = CurrentPlayerTemp;
         }
     }
-
+    //viljar sa noe om rar indeksering hopping, hente ut amout of players
     /**
      * This method chenges the players turn, by changing the index of the player in the playerlist.
      */
     public void PlayerTurn(){
-        if (PlayerListIndex >= PlayerList.size() - 1) {
+        if (PlayerListIndex >= ControllerMouseClicked.getamountOfPlayers() - 1) {//er dette lov
             PlayerListIndex = 0;
         } else {
             PlayerListIndex++;
-            player = PlayerList.get(PlayerListIndex);
+            player = PlayerList.get(PlayerListIndex);//tipper denne er riktig
         }
     }
 
@@ -221,7 +229,11 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return gameState;
     }
 
+    //funker ikke 
     //om en spiller går på en annen spiller, flyttes den til en tilfeldig posisjon under rad 7
+    //sjekket at jeg ikke gikk på meg selv
+    //hvis det ligger en spiller som ikke er seg selv, flytt den spilleren til blabla, bruk en for loop for å hente alle spillere
+    //må da hente ut spillerID fra listen over
     public void stumpPlayer() {
         int randomrow = (int) (Math.random() * 3) + 7;
         int randomCol = (int) (Math.random() * 10);
@@ -236,7 +248,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return gameInfo;
     }
 
-    //er dette riktig? sjekk for StartPLayer
     @Override
     public Player getNext() {
         return getNext();
@@ -244,6 +255,11 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     @Override
     public boolean hasMorePlayers() {
         return hasMorePlayers();
+    }
+
+    @Override
+    public List<Player> getPlayerList() {
+        return PlayerList; 
     }
     
 }

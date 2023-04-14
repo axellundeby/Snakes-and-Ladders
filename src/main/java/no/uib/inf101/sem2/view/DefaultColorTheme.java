@@ -11,6 +11,8 @@ public class DefaultColorTheme implements ColorTheme{
       Color color = switch(c) {
         case 'P' -> Color.BLACK;//spiller
         case 'Q' -> Color.cyan;//spiller
+        case 'B' -> Color.PINK;//spiller
+        case 'K' -> Color.yellow;//spiller
         //.... fyll ut dine favorittfarger
         case '-' -> new Color(0, 0, 0, 37);
         default -> throw new IllegalArgumentException(
@@ -37,12 +39,19 @@ public class DefaultColorTheme implements ColorTheme{
 
     @Override
     public Font getStartBackgroundFont() {
-        return new Font("Serif", Font.BOLD, 5);
+        return new Font("Serif", Font.BOLD, 25);
     }
 
     @Override
-    public Color getStartFontColor() {
+    public Color getStartFontColor() {//tekst å farge
+        return new Color(255, 239, 0);
+        
+    }
+
+    @Override
+    public Color getBoxColor() {//farge til boks
         return new Color(255, 98, 1);
+        
     }
 
     

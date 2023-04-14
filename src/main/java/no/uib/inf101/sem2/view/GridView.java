@@ -25,7 +25,12 @@ public class GridView extends JPanel {
   private final  int InnMargin = 2;
   private final ViewableModel view;
   private final ColorTheme colorTheme;
-  private boolean mouseIsInTheRectangle = false;
+  private boolean mouseIsInTheDice = false;
+  private boolean mouseIsInTheStart = false;
+  private boolean mouseIsInTheRectfour = false;
+  private boolean mouseIsInTheRecthree = false;
+  private boolean mouseIsInTheRectwo = false;
+  
   BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
 
   
@@ -68,7 +73,7 @@ public class GridView extends JPanel {
       g.setFont(StartColor.getStartBackgroundFont());
       g.setColor(StartColor.getStartFontColor());
 
-      Inf101Graphics.drawCenteredString(g, "Axels fantastiske stigespill",0, 0, this.getWidth()-200, this.getHeight()); 
+      Inf101Graphics.drawCenteredString(g, "Axels fantastiske stigespill",0, 0, this.getWidth(), 60); 
     }
 
 //når man trykker innen for firkanten henter den gjør den spillet aktivt, spillet må starte innaktivt
@@ -76,88 +81,110 @@ public class GridView extends JPanel {
 /**
 @return A RoundRectangle2D object representing the start box on the game board.
 */
-  public RoundRectangle2D getStartBoxRectangle() {
-      double width = getWidth();
-      double height = getHeight();
-      double size = Math.min(width, height) * 0.15;
-      double x = (width - size) / 2 - 70; 
-      double y = height - size - 60;
-      return new RoundRectangle2D.Double(x, y, size, size,30,20);
-    }
 
-  //når bruker trykker på firkant henter den antall spillere 
+public RoundRectangle2D getStartBoxRectangle() {
+  double width = getWidth();
+  double height = getHeight();
+  double size = Math.min(width, height) * 0.15;
+  double widthMultiplier = 3.0;
+  double adjustedWidth = size * widthMultiplier;
+  double adjustedHeight = size;
+  double x = (width - adjustedWidth) / 2;
+  double y = (height - 650);
+  return new RoundRectangle2D.Double(x, y, adjustedWidth, adjustedHeight,30,20);
+}
 
   /**
 @return A RoundRectangle2D object representing three players.
 */
   public RoundRectangle2D getThreePlayerBoxRectangle() {
-      double width = getWidth();
-      double height = getHeight();
-      double size = Math.min(width, height) * 0.15;
-      double x = (width - size) / 2 - 70; 
-      double y = height - size;
-      return new RoundRectangle2D.Double(x, y, size, size,30,20);
-    }
+  double width = getWidth();
+  double height = getHeight();
+  double size = Math.min(width, height) * 0.15;
+  double widthMultiplier = 3.0;
+  double adjustedWidth = size * widthMultiplier;
+  double adjustedHeight = size;
+  double x = (width - adjustedWidth) / 2;
+  double y = (height - 350);
+  return new RoundRectangle2D.Double(x, y, adjustedWidth, adjustedHeight,30,20);
+  }
    /**
 @return A RoundRectangle2D object representing two players.
-*/
+// */
   public RoundRectangle2D getTwoPlayerBoxRectangle() {
-      double width = getWidth();
-      double height = getHeight();
-      double size = Math.min(width, height) * 0.15;
-      double x = (width - size) / 2 - 70 - size - 20; 
-      double y = height - size;
-      return new RoundRectangle2D.Double(x, y, size, size,30,20);
+  double width = getWidth();
+  double height = getHeight();
+  double size = Math.min(width, height) * 0.15;
+  double widthMultiplier = 3.0;
+  double adjustedWidth = size * widthMultiplier;
+  double adjustedHeight = size;
+  double x = (width - adjustedWidth) / 2;
+  double y = (height - 500);
+  return new RoundRectangle2D.Double(x, y, adjustedWidth, adjustedHeight,30,20);
   }
 
   /**
 @return A RoundRectangle2D object representing four players.
 */
 
-  public RoundRectangle2D getFourPlayerBoxRectangle() {
-    double width = getWidth();
-    double height = getHeight();
-    double size = Math.min(width, height) * 0.15;
-    double x = (width - size) / 2 - 70 + size + 20; 
-    double y = height - size;
-    return new RoundRectangle2D.Double(x, y, size, size,30,20);
+public RoundRectangle2D getFourPlayerBoxRectangle() {
+  double width = getWidth();
+  double height = getHeight();
+  double size = Math.min(width, height) * 0.15;
+  double widthMultiplier = 3.0;
+  double adjustedWidth = size * widthMultiplier;
+  double adjustedHeight = size;
+  double x = (width - adjustedWidth) / 2;
+  double y = (height - 200);
+  return new RoundRectangle2D.Double(x, y, adjustedWidth, adjustedHeight,30,20);
 }
 
 //skriver den i midten av firkanten, tviler på at det er riktig måte å gjøre det på
   private void drawFourPlayer(Graphics2D g) {
     RoundRectangle2D boxRect = this.getFourPlayerBoxRectangle();
     ColorTheme StartColor = new DefaultColorTheme();
+    g.setColor(StartColor.getBoxColor());
+    g.fill(boxRect);
+
     g.setFont(StartColor.getStartBackgroundFont());
     g.setColor(StartColor.getStartFontColor());
-    Inf101Graphics.drawCenteredString(g, "4 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+    Inf101Graphics.drawCenteredString(g, "4 player", boxRect.getX(), boxRect.getY(), boxRect.getWidth(), boxRect.getHeight());
  }
   private void drawThreePlayer(Graphics2D g) {
     RoundRectangle2D boxRect = this.getThreePlayerBoxRectangle();
     ColorTheme StartColor = new DefaultColorTheme();
+    g.setColor(StartColor.getBoxColor());
+    g.fill(boxRect);
+
     g.setFont(StartColor.getStartBackgroundFont());
     g.setColor(StartColor.getStartFontColor());
-    Inf101Graphics.drawCenteredString(g, "3 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+
+    Inf101Graphics.drawCenteredString(g, "3 player", boxRect.getX(), boxRect.getY(), boxRect.getWidth(), boxRect.getHeight());
 }
 
 private void drawTwoPlayer(Graphics2D g) {
   RoundRectangle2D boxRect = this.getTwoPlayerBoxRectangle();
   ColorTheme StartColor = new DefaultColorTheme();
+  g.setColor(StartColor.getBoxColor());
+  g.fill(boxRect);
+  
   g.setFont(StartColor.getStartBackgroundFont());
   g.setColor(StartColor.getStartFontColor());
-  Inf101Graphics.drawCenteredString(g, "2 player", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+  Inf101Graphics.drawCenteredString(g, "2 player", boxRect.getX(), boxRect.getY(), boxRect.getWidth(), boxRect.getHeight());
 }
 
 private void drawStartGame(Graphics2D g) {
   RoundRectangle2D boxRect = this.getStartBoxRectangle();
   ColorTheme StartColor = new DefaultColorTheme();
+
+  g.setColor(StartColor.getBoxColor());
+  g.fill(boxRect);
   g.setFont(StartColor.getStartBackgroundFont());
   g.setColor(StartColor.getStartFontColor());
-  Inf101Graphics.drawCenteredString(g, "Trykk her for å starte spillet", 0, 0, boxRect.getWidth(), boxRect.getHeight());
+  Inf101Graphics.drawCenteredString(g, "Trykk her for å starte spillet", boxRect.getX(), boxRect.getY(), boxRect.getWidth(), boxRect.getHeight());
 }
     
     
-
-
 private void drawBoard(Graphics2D g) {
     Rectangle2D boardBox = this.getBoardRectangle();
     double scale = (boardBox.getHeight() - 1)/boardImage.getHeight();
@@ -176,7 +203,6 @@ private void drawBoard(Graphics2D g) {
     int boardY = yMargin;
     return new Rectangle2D.Double(boardX, boardY, boardWidth, boardHeight);
  }
-
 
 
   private void drawCells(Graphics2D g, Iterable<GridCell<Character>> grid, CellPositionToPixelConverter converter, ColorTheme colorTheme) {
@@ -218,9 +244,6 @@ private void drawBoard(Graphics2D g) {
       }
       double scale = (eventRect.getHeight() - 1) / eventImage.getHeight();
       Inf101Graphics.drawImage(g, eventImage, eventRect.getX() + 1, eventRect.getY() + 1, scale);
-      //g.setFont(colorTheme.getFont());
-      //g.setColor(colorTheme.getFontColor());//whaaat??
-
     }
 /**
  * 
@@ -290,16 +313,16 @@ private void drawBoard(Graphics2D g) {
       return new Rectangle2D.Double(x, y, size, size);
   }
 
-      private void setupMousePositionUpdater() {
+  private void setupMousePositionUpdater() {
         // Keep the mousePosition variable up to date
         this.addMouseMotionListener(new MouseMotionAdapter() {
           @Override
-          public void mouseMoved(MouseEvent e) {
-            mouseIsInTheRectangle = getDiceRectangle().contains(e.getPoint());
-            mouseIsInTheRectangle = getStartBoxRectangle().contains(e.getPoint());
-            mouseIsInTheRectangle = getFourPlayerBoxRectangle().contains(e.getPoint());
-            mouseIsInTheRectangle = getThreePlayerBoxRectangle().contains(e.getPoint());
-            mouseIsInTheRectangle = getTwoPlayerBoxRectangle().contains(e.getPoint());
+          public void mouseMoved(MouseEvent e) {//dette er sus
+            mouseIsInTheDice = getDiceRectangle().contains(e.getPoint());
+            mouseIsInTheStart = getStartBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRectfour = getFourPlayerBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRecthree = getThreePlayerBoxRectangle().contains(e.getPoint());
+            mouseIsInTheRectwo = getTwoPlayerBoxRectangle().contains(e.getPoint());
             updateCursor();
             repaint();
           }
@@ -307,7 +330,10 @@ private void drawBoard(Graphics2D g) {
       }
     
       private void updateCursor() {
-        if (mouseIsInTheRectangle) {
+        if ((mouseIsInTheStart||mouseIsInTheRectfour||mouseIsInTheRecthree||mouseIsInTheRectwo) && view.getGamestate() == GameState.GameInActive) {
+          setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+        else if(view.getGamestate() == GameState.GameActive && mouseIsInTheDice){
           setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
