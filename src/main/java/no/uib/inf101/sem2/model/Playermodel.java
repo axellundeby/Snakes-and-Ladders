@@ -10,7 +10,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameInActive;
     private GameInfo gameInfo = GameInfo.DEFAULT;
-    
     private int PlayerListIndex = 0;
     private List<Player> PlayerList;
     private int amountOfplayers = 2;
@@ -34,6 +33,10 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     @Override
     public DiceState getDiceState() {
         return diceState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
    /**
     * This method updates the state of the dice based on the number of eyes that show up after rolling.
@@ -186,9 +189,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         gameInfo = GameInfo.DEFAULT;
     }
 
-    public void updateGameState(){
-        gameState = GameState.GameActive;
-    }
     /**
      * this method checks if the player is out of the grid if so, the player wins.
      */
@@ -258,31 +258,59 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         }
     }
 
-    private void playerOnNextTile(){
-        int PlayerRow = PlayerList.get(PlayerListIndex).getPos().row();
-        int PlayerCol = PlayerList.get(PlayerListIndex).getPos().col();
-        if(PlayerRow % 2 == 0){
-            if(PlayerCol == 0){
-                movePlayer(1, 0);
-            }
-            movePlayer(0, -2);
-        }
-        else if(PlayerRow % 2 != 0){
-            if(PlayerCol == 9){
-                movePlayer(0, 1);
-            }
-            movePlayer(0, 2);
-        }
-    }
 
     public boolean playerOnNextTileChecker(){
-        CellPosition pos = PlayerList.get(PlayerListIndex).getPos();
-        if(board.get(pos) != '-' && board.get(pos) != PlayerList.get(PlayerListIndex).getPlayerID()){
-            playerOnNextTile();
-            return true;
-        }
-        return false;
+        Player player = PlayerList.get(PlayerListIndex);
+        int row = player.getPos().row();
+        int col = player.getPos().col();
         
+        CellPosition posRight = new CellPosition(row, col + 1);
+        char valueRight = board.get(posRight);
+
+        CellPosition posLeft = new CellPosition(row, col - 1);
+        char valueLeft = board.get(posLeft);
+
+        // CellPosition posEdgeLeft = new CellPosition(row +1 , col - 1);
+        // char valueEdgeLeft = board.get(posEdgeLeft);
+
+        // CellPosition posEdgeRight = new CellPosition(row + 1, col + 1);
+        // char valueEdgeRight = board.get(posEdgeRight);
+        if(row % 2 != 0 && valueRight != '-' && valueRight != player.getPlayerID() && col != 9){
+                // if (col == 8){
+                //     movePlayer(1, 1);
+            movePlayer(0, 2);
+       // }
+        }
+        else if (row % 2 == 0 && valueLeft != '-' && valueLeft != player.getPlayerID() && col != 0){
+                // if (col == 1){
+                //     movePlayer(1, -1);
+                // }
+            movePlayer(0, -2);
+        }
+        
+    
+        return false;
+
+        //         if(valueRight != '-' && valueRight != player.getPlayerID()){
+    //             if (col == 8){
+    //                 movePlayerRight();
+    //                 PlayerOnEdge();
+    //             }
+    //             movePlayer(0, 2);
+    //             return true;
+    //         }
+    //         else if(valueLeft != '-' && valueLeft != player.getPlayerID()){
+    //             if (col == 1){
+    //                 movePlayerLeft();
+    //                 PlayerOnEdge();
+    //             }
+    //             movePlayerLeft();
+    //             movePlayerLeft();
+    //             return true;
+    //         }
+    //     }
+    // else{
+    
     }
 
     @Override

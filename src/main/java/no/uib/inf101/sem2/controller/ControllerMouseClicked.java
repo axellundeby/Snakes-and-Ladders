@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Timer;
-
 import no.uib.inf101.sem2.controller.midi.GameSong;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.Playermodel;
@@ -19,11 +18,11 @@ public class ControllerMouseClicked implements MouseListener {
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
   private static final int DELAY = 200;
-  private GameState gameState = GameState.GameInActive;
   private final GameSong song = new GameSong();
   private int eyes = 0;
+
   
-  //hvorfor har jeg interface her?
+  //hvorfor har jeg interface her? enum fungerer ikke
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
     this.view = view;
@@ -40,7 +39,8 @@ public class ControllerMouseClicked implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){//når en vinner er kåret kan fortsatt terningen rulles, d er feil 
+    GameState gameState = model.getGamestate();
+    if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){
       model.updateGameinfo();
       eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
@@ -51,7 +51,7 @@ public class ControllerMouseClicked implements MouseListener {
     }
     else if (gameState == GameState.GameInActive){
       if(view.getStartBoxRectangle().contains(e.getPoint())){
-        model.updateGameState();
+          model.setGameState(GameState.GameActive);
       }
       else if (view.getThreePlayerBoxRectangle().contains(e.getPoint())){
           model.setAmountOfPlayers(3);
@@ -67,13 +67,16 @@ public class ControllerMouseClicked implements MouseListener {
   }
 
   private void animateSingleStep() {
+    GameState gameState = model.getGamestate();
     if (diceEyesToAnimate > 0) {
-      model.PlayerJump();
-      if(model.playerOnNextTileChecker()){//dette går ikke
+      // if(model.playerOnNextTileChecker()){//dette går ikke
+      //   diceEyesToAnimate--;
+      // }
+      // else{
+        model.PlayerJump();
         diceEyesToAnimate--;
-      }
+      //}
       model.Winner();//feil her
-      diceEyesToAnimate--;
     } else {
       model.SteppedOnSnake();
       model.SteppedOnLadder();
@@ -81,7 +84,7 @@ public class ControllerMouseClicked implements MouseListener {
       if (eyes<6){
         model.PlayerTurn();
       }
-      model.stumpPlayer();//noe gæli her
+      model.stumpPlayer();//noe gæli her, får ikke flyttet den under
       gameState = GameState.GameActive;
       animationTimer.stop();
     }
