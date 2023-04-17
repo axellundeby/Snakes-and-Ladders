@@ -26,7 +26,7 @@ public final class Player {
         return pos;
     }
 
-    public Player setPos(int newRow,int newCol) {
+    public Player setPos(int newRow, int newCol) {
         CellPosition pos = new CellPosition(newRow, newCol);
         Player ShapeCopy = new Player(PlayerID, pos);
         return ShapeCopy;

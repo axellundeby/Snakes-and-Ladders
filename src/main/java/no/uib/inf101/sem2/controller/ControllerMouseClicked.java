@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import javax.swing.Timer;
 
 import no.uib.inf101.sem2.controller.midi.GameSong;
-import no.uib.inf101.sem2.model.GameInfo;
 import no.uib.inf101.sem2.model.GameState;
 import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
@@ -20,8 +19,7 @@ public class ControllerMouseClicked implements MouseListener {
   private int diceEyesToAnimate = 0;
   private Timer animationTimer;
   private static final int DELAY = 200;
-  private GameState gameState = GameState.GameActive;//starter inActive
-  private GameInfo gameInfo = GameInfo.DEFAULT;
+  private GameState gameState = GameState.GameInActive;
   private final GameSong song = new GameSong();
   private int eyes = 0;
   
@@ -43,7 +41,7 @@ public class ControllerMouseClicked implements MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){//når en vinner er kåret kan fortsatt terningen rulles, d er feil 
-      gameInfo = GameInfo.DEFAULT;//når kastet setter ikke enumet seg til riktig verdi
+      model.updateGameinfo();
       eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
       diceEyesToAnimate = eyes;
@@ -53,7 +51,7 @@ public class ControllerMouseClicked implements MouseListener {
     }
     else if (gameState == GameState.GameInActive){
       if(view.getStartBoxRectangle().contains(e.getPoint())){
-        gameState = GameState.GameActive;
+        model.updateGameState();
       }
       else if (view.getThreePlayerBoxRectangle().contains(e.getPoint())){
           model.setAmountOfPlayers(3);
@@ -77,14 +75,13 @@ public class ControllerMouseClicked implements MouseListener {
       model.Winner();//feil her
       diceEyesToAnimate--;
     } else {
-      System.out.println(eyes);
       model.SteppedOnSnake();
       model.SteppedOnLadder();
       model.PlayerAppear();
       if (eyes<6){
         model.PlayerTurn();
       }
-      //model.stumpPlayer();//noe gæli her
+      model.stumpPlayer();//noe gæli her
       gameState = GameState.GameActive;
       animationTimer.stop();
     }

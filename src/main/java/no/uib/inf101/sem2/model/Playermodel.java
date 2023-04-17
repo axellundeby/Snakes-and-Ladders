@@ -8,19 +8,12 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     private Board board;
     private PlayerFactory factory;
     private DiceState diceState = DiceState.ROLE;
-    private GameState gameState = GameState.GameActive;
+    private GameState gameState = GameState.GameInActive;
     private GameInfo gameInfo = GameInfo.DEFAULT;
     
     private int PlayerListIndex = 0;
     private List<Player> PlayerList;
     private int amountOfplayers = 2;
-    
-     
-//currentPlayer = playerList.get(playerListIndex % playerList.size());
-    
-
-// set num players(int)
-// hente liste fra factory med spillere - gjort?
 
     public Playermodel(Board board, PlayerFactory factory){
         this.board = board;
@@ -86,7 +79,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
     }
     
-    //PlayerList.get(PlayerListIndex).setPos(ShapeCopy.getPos());
+
     /**
      * This method moves the player right if the row is even and left if it is odd, if the player is on the edge of the board it moves the player up.
      */
@@ -110,7 +103,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             }
         }
     }
-
     private void movePlayerRight() {
         movePlayer(0, +1);
     }
@@ -134,23 +126,31 @@ public class Playermodel implements ViewableModel, PlayerFactory{
 
         if (row == 0 && col == 1) {
             movePlayerTo(5, 0);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 1 && col == 8) {
             movePlayerTo(4, 7);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 2 && col == 4) {
             movePlayerTo(4, 2);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 3 && col == 5) {
             movePlayerTo(5, 4);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 4 && col == 6) {
              movePlayerTo(6, 9);
+             gameInfo = GameInfo.SNAKE;
         } else if (row == 5 && col == 2) {
             movePlayerTo(8, 2);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 6 && col == 0) {
             movePlayerTo(9, 2);
+            gameInfo = GameInfo.SNAKE;
         } else if (row == 7 && col == 6) {
             movePlayerTo(9, 4);
+            gameInfo = GameInfo.SNAKE;
         }
-        gameInfo = GameInfo.SNAKE;
      }
+
 
     /**
      * This method checks if the player is on a ladder and moves the player accordingly.
@@ -160,20 +160,34 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         int col = PlayerList.get(PlayerListIndex).getPos().col();
         if (row == 9 && col == 3) {
             movePlayerTo(7, 4);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 8 && col == 7) {
             movePlayerTo(5, 5);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 6 && col == 7) {
             movePlayerTo(5, 8);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 5 && col == 1) {
             movePlayerTo(3, 2);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 5 && col == 9) {
             movePlayerTo(3, 8);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 3 && col == 1) {
             movePlayerTo(1, 0);
+            gameInfo = GameInfo.LADDER;
         } else if (row == 2 && col == 6) {
             movePlayerTo(0, 8);
+            gameInfo = GameInfo.LADDER;
         }
-        gameInfo = GameInfo.LADDER;
+    }
+
+    public void updateGameinfo(){
+        gameInfo = GameInfo.DEFAULT;
+    }
+
+    public void updateGameState(){
+        gameState = GameState.GameActive;
     }
     /**
      * this method checks if the player is out of the grid if so, the player wins.
@@ -184,7 +198,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         int col = PlayerList.get(PlayerListIndex).getPos().col();
         if(row == 0 && col == 0){
             gameInfo = GameInfo.WINNER;
-            //gameState=GameState.disbaleDice;
+            gameState=GameState.disbaleDice;
         }
     }
 
@@ -222,16 +236,24 @@ public class Playermodel implements ViewableModel, PlayerFactory{
 
     //funker ikke 
     //om en spiller går på en annen spiller, flyttes den til en tilfeldig posisjon under rad 7
-    //sjekket at jeg ikke gikk på meg selv
+    //sjekket at jeg ikke gikk på meg selv------- ja
     //hvis det ligger en spiller som ikke er seg selv, flytt den spilleren til blabla, bruk en for loop for å hente alle spillere
-    //hopp over plassen til en annen spiller, behold stump
-    //må da hente ut spillerID fra listen over
+   
     public void stumpPlayer() {
         int randomrow = (int) (Math.random() * 3) + 7;
         int randomCol = (int) (Math.random() * 10);
         CellPosition pos = PlayerList.get(PlayerListIndex).getPos();
-        if(board.get(pos) == '-'){
-            movePlayer(randomrow, randomCol);
+        char value = board.get(pos);
+
+        Player playerOnTop = PlayerList.get(PlayerListIndex);
+        
+        if(value!= '-' && value != playerOnTop.getPlayerID()){
+            for (int i = 0; i < amountOfplayers; i++) {
+                if (PlayerList.get(i).getPlayerID() == value) { //flytt value player blabla
+                    Player playerToMove = PlayerList.get(i);
+                    playerToMove.setPos(randomrow, randomCol);
+                }
+            }
             gameInfo = GameInfo.STUMP;
         }
     }
@@ -262,7 +284,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return false;
         
     }
-
 
     @Override
     public GameInfo getGameInfo() {

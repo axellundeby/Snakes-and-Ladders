@@ -48,7 +48,7 @@ public class GridView extends JPanel {
   public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      if(view.getGamestate() == GameState.GameActive){//om spillet er aktivt
+      if(view.getGamestate() == GameState.GameActive || view.getGamestate() == GameState.disbaleDice){//om spillet er aktivt
         drawBoard(g2);
         drawDice(g2);
         drawEvent(g2);
