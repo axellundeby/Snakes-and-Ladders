@@ -23,7 +23,7 @@ public class ControllerMouseClicked implements MouseListener {
   private GameState gameState = GameState.GameActive;//starter inActive
   private GameInfo gameInfo = GameInfo.DEFAULT;
   private final GameSong song = new GameSong();
-  public static int amountOfplayers = 2;//må hentes til modellen
+  private int eyes = 0;
   
   //hvorfor har jeg interface her?
   public ControllerMouseClicked(Playermodel model, GridView view) {
@@ -44,9 +44,8 @@ public class ControllerMouseClicked implements MouseListener {
   public void mouseClicked(MouseEvent e) {
     if(view.getDiceRectangle().contains(e.getPoint()) && gameState == GameState.GameActive){//når en vinner er kåret kan fortsatt terningen rulles, d er feil 
       gameInfo = GameInfo.DEFAULT;//når kastet setter ikke enumet seg til riktig verdi
-      int eyes = randomThrow.rollDice();
+      eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
-      //neste spiller sin tur når en terning er rullet
       diceEyesToAnimate = eyes;
       gameState = GameState.ANIMATE;
       animationTimer.start();
@@ -57,15 +56,14 @@ public class ControllerMouseClicked implements MouseListener {
         gameState = GameState.GameActive;
       }
       else if (view.getThreePlayerBoxRectangle().contains(e.getPoint())){
-          amountOfplayers = 3;
+          model.setAmountOfPlayers(3);
       }
       else if (view.getFourPlayerBoxRectangle().contains(e.getPoint())){
-          amountOfplayers = 4;
+          model.setAmountOfPlayers(4);
       }
       else if (view.getTwoPlayerBoxRectangle().contains(e.getPoint())){
-          amountOfplayers = 2;
+          model.setAmountOfPlayers(2);
       }
-      System.out.println("amount of players: " + amountOfplayers);
     }
     view.repaint();
   }
@@ -73,26 +71,24 @@ public class ControllerMouseClicked implements MouseListener {
   private void animateSingleStep() {
     if (diceEyesToAnimate > 0) {
       model.PlayerJump();
-      if(model.playerOnNextTileChecker()){//går dette
+      if(model.playerOnNextTileChecker()){//dette går ikke
         diceEyesToAnimate--;
       }
+      model.Winner();//feil her
       diceEyesToAnimate--;
     } else {
+      System.out.println(eyes);
       model.SteppedOnSnake();
       model.SteppedOnLadder();
-      model.Winner();
-      model.PlayerAppear(); 
-      model.PlayerTurn();
+      model.PlayerAppear();
+      if (eyes<6){
+        model.PlayerTurn();
+      }
       //model.stumpPlayer();//noe gæli her
       gameState = GameState.GameActive;
       animationTimer.stop();
     }
     view.repaint();
-  }
-
-
-  public static int getamountOfPlayers(){
-    return amountOfplayers;
   }
 
   @Override

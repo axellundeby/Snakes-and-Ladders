@@ -6,6 +6,7 @@ import java.util.List;
 import no.uib.inf101.sem2.grid.CellPosition;
 
 public class StartPlayer implements PlayerFactory {
+    int playerIndex=0;
     private List<Character> playerSymbols = new ArrayList<Character>();
 
     public StartPlayer() {
@@ -17,13 +18,13 @@ public class StartPlayer implements PlayerFactory {
 
     @Override
     public Player getNext() {
-        if (playerSymbols.isEmpty()) {
+        if (playerIndex >= playerSymbols.size()) {
             return null;
         }
         else{
-            char playerSymbol = playerSymbols.get(0);
+            char playerSymbol = playerSymbols.get(playerIndex);
             Player player = new Player(playerSymbol, new CellPosition(9, 0));
-            playerSymbols.remove(0);
+            playerIndex++;
             return player;
     }   
     }

@@ -24,7 +24,7 @@ public interface ViewableModel{
     @return An Iterable of GridCell objects representing the cells occupied by a piece.
     */
 
-    Iterable<GridCell<Character>> getPiece();
+    // Iterable<GridCell<Character>> getPiece();
     
     /**
      * Returns the current state of the dice

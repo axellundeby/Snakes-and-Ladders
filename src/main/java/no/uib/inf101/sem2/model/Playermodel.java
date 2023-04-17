@@ -1,5 +1,4 @@
 package no.uib.inf101.sem2.model;
-import java.util.Arrays;
 import java.util.List;
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
@@ -14,6 +13,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     
     private int PlayerListIndex = 0;
     private List<Player> PlayerList;
+    private int amountOfplayers = 2;
     
      
 //currentPlayer = playerList.get(playerListIndex % playerList.size());
@@ -37,11 +37,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public Iterable<GridCell<Character>> getTilesOnBoard(){
         return this.board;
     }
-    // @Override
-    // public Iterable<GridCell<Character>> getPiece() {
-    //    return PlayerList.get(PlayerListIndex);
-    // }
-
+    
     @Override
     public DiceState getDiceState() {
         return diceState;
@@ -73,14 +69,21 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     }
    
 
-    private void movePlayer(int MoveToRow, int MoveTocol) {
-        Player ShapeCopy = PlayerList.get(PlayerListIndex).shiftedBy(MoveToRow, MoveTocol);
+    private void movePlayer(int Row, int Col) {
+        Player temp = PlayerList.get(PlayerListIndex);
+        board.set(temp.getPos(), '-');
+        Player ShapeCopy = temp.shiftedBy(Row, Col);
         PlayerList.set(PlayerListIndex,ShapeCopy);
+        board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
         
     }
     
     private void movePlayerTo(int MoveToRow, int MoveToCol) {
-        PlayerList.get(PlayerListIndex).setPos(new CellPosition(MoveToRow, MoveToCol));
+        Player temp = PlayerList.get(PlayerListIndex);
+        board.set(temp.getPos(), '-');
+        Player ShapeCopy = temp.setPos(MoveToRow, MoveToCol);
+        PlayerList.set(PlayerListIndex,ShapeCopy);
+        board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
     }
     
     //PlayerList.get(PlayerListIndex).setPos(ShapeCopy.getPos());
@@ -140,7 +143,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         } else if (row == 4 && col == 6) {
              movePlayerTo(6, 9);
         } else if (row == 5 && col == 2) {
-            movePlayerTo(9, 2);
+            movePlayerTo(8, 2);
         } else if (row == 6 && col == 0) {
             movePlayerTo(9, 2);
         } else if (row == 7 && col == 6) {
@@ -179,9 +182,9 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public void Winner() {
         int row = PlayerList.get(PlayerListIndex).getPos().row();
         int col = PlayerList.get(PlayerListIndex).getPos().col();
-        if(row<0 || col<0){
+        if(row == 0 && col == 0){
             gameInfo = GameInfo.WINNER;
-            gameState=GameState.disbaleDice;
+            //gameState=GameState.disbaleDice;
         }
     }
 
@@ -195,19 +198,21 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             PlayerList.set(PlayerListIndex,CurrentPlayerTemp);
         }
     }
-    //viljar sa noe om rar indeksering hopping, hente ut amout of players
+ 
     /**
      * This method chenges the players turn, by changing the index of the player in the playerlist.
      */
     public void PlayerTurn(){
-        if (PlayerListIndex >= 3) {//er dette lov, helst amountOfPlayers
+        if (PlayerListIndex >= amountOfplayers - 1) {
             PlayerListIndex = 0;
 
         } else {
             PlayerListIndex++;
-            PlayerList.get(PlayerListIndex);//tipper denne er feil
-            //PlayerList.set(PlayerListIndex,PlayerList.get(PlayerListIndex));
         }
+    }
+
+    public void setAmountOfPlayers(int amountOfplayers) {
+        this.amountOfplayers = amountOfplayers;
     }
 
     @Override
@@ -250,8 +255,9 @@ public class Playermodel implements ViewableModel, PlayerFactory{
 
     public boolean playerOnNextTileChecker(){
         CellPosition pos = PlayerList.get(PlayerListIndex).getPos();
-        if(board.get(pos) != '-' || board.get(pos) != PlayerList.get(PlayerListIndex).getPlayerID()){//funker dette
+        if(board.get(pos) != '-' && board.get(pos) != PlayerList.get(PlayerListIndex).getPlayerID()){
             playerOnNextTile();
+            return true;
         }
         return false;
         

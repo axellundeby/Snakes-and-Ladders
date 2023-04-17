@@ -192,12 +192,7 @@ private void drawBoard(Graphics2D g) {
     GridDimension dimension = view.getDimension();
     CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
 
-    drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
-    
-    // for (int i = 0; i < 3; i++) {
-    //   drawCells(g, view.getPiece(), converter, colorTheme);
-    // }
-     
+    drawCells(g, view.getTilesOnBoard(), converter, colorTheme);   
   }
 
   private Rectangle2D getBoardRectangle() {
@@ -246,7 +241,7 @@ private void drawBoard(Graphics2D g) {
           break;
         case WINNER:
         eventImage = Inf101Graphics.loadImageFromResources("/pokal.png");
-        Inf101Graphics.drawCenteredString(g, "Spiller bla bla vant!",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+        Inf101Graphics.drawCenteredString(g, "Seier!",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
           break;
       }
       double scale = (eventRect.getHeight() - 1) / eventImage.getHeight();
@@ -301,7 +296,7 @@ private void drawBoard(Graphics2D g) {
           break;
         case SIX:
           diceImage = Inf101Graphics.loadImageFromResources("die_6.png");
-          Inf101Graphics.drawCenteredString(g, "Du rullet 6, neste sin tur", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
+          Inf101Graphics.drawCenteredString(g, "Du rullet 6, du kan kaste på nytt!", getWidth(), getHeight()-40, this.getWidth() - getWidth() * 2,10);
           break;
       }
       
