@@ -20,14 +20,17 @@ public class StartPlayer implements PlayerFactory {
         if (playerSymbols.isEmpty()) {
             return null;
         }
-        char  playerSymbol = playerSymbols.get(0);
-        playerSymbols.remove(0);
-        return new Player(playerSymbol, new CellPosition(9, 0));
+        else{
+            char playerSymbol = playerSymbols.get(0);
+            Player player = new Player(playerSymbol, new CellPosition(9, 0));
+            playerSymbols.remove(0);
+            return player;
+    }   
     }
 
     public List<Player> getPlayerList() {
         List<Player> players = new ArrayList<Player>();
-        for (int i = 0; i < playerSymbols.size(); i++) {
+        for (int i = 0; i < 4; i++) {
             players.add(getNext());
         }
         return players;

@@ -73,6 +73,9 @@ public class ControllerMouseClicked implements MouseListener {
   private void animateSingleStep() {
     if (diceEyesToAnimate > 0) {
       model.PlayerJump();
+      if(model.playerOnNextTileChecker()){//går dette
+        diceEyesToAnimate--;
+      }
       diceEyesToAnimate--;
     } else {
       model.SteppedOnSnake();

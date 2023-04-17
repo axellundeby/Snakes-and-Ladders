@@ -54,6 +54,12 @@ public class DefaultColorTheme implements ColorTheme{
         
     }
 
+
+    @Override
+    public Color getEventNDiceFontColor() {
+        return Color.black;
+    }
+
     
 }
 

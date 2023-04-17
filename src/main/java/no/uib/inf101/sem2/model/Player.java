@@ -7,23 +7,22 @@ import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 
 public final class Player implements Iterable<GridCell<Character>> {
-    private final char c;
+    private final char PlayerID;
     private CellPosition pos;
     
     public Player(char PlayerID, CellPosition pos) {
-        this.c = PlayerID;
+        this.PlayerID = PlayerID;
         this.pos = pos;
     }
-
-    // public Player(char c) {
-    //     this(c,new CellPosition(9, 0));
-    // }
-
-   
+  
     public Player shiftedBy(int deltaRow, int deltaCol) {
         CellPosition pos = new CellPosition(this.pos.row() + deltaRow, this.pos.col() + deltaCol);
-        Player ShapeCopy = new Player(c, pos);
+        Player ShapeCopy = new Player(PlayerID, pos);
         return ShapeCopy;
+    }
+
+    public char getPlayerID() {
+        return PlayerID;
     }
 
     @Override
@@ -31,7 +30,7 @@ public final class Player implements Iterable<GridCell<Character>> {
         ArrayList<GridCell<Character>> shapePosList = new ArrayList<>();
 
         CellPosition cellPos = new CellPosition(this.pos.row(), this.pos.col());
-        GridCell<Character> cell = new GridCell<>(cellPos, c);
+        GridCell<Character> cell = new GridCell<>(cellPos, PlayerID);
         shapePosList.add(cell);
 
         return shapePosList.iterator();
@@ -39,7 +38,7 @@ public final class Player implements Iterable<GridCell<Character>> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(c, pos);
+        return Objects.hash(PlayerID, pos);
     }
 
     @Override
@@ -51,7 +50,7 @@ public final class Player implements Iterable<GridCell<Character>> {
             return false;
         }
         Player other = (Player) obj;
-        return this.c == other.c && this.pos.equals(other.pos);
+        return this.PlayerID == other.PlayerID && this.pos.equals(other.pos);
     }
 
     public CellPosition getPos() {

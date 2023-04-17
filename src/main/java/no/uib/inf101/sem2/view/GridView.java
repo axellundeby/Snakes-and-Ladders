@@ -191,8 +191,12 @@ private void drawBoard(Graphics2D g) {
     Inf101Graphics.drawImage(g, boardImage, boardBox.getX() + 1, boardBox.getY() + 1, scale);
     GridDimension dimension = view.getDimension();
     CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardBox, dimension, InnMargin);
+
     drawCells(g, view.getTilesOnBoard(), converter, colorTheme);
-    drawCells(g, view.getPiece(), converter, colorTheme);
+    
+    // for (int i = 0; i < 3; i++) {
+    //   drawCells(g, view.getPiece(), converter, colorTheme);
+    // }
      
   }
 
@@ -220,6 +224,9 @@ private void drawBoard(Graphics2D g) {
       Rectangle2D eventRect = this.getEventRectangle();
       BufferedImage eventImage = null;
       GameInfo gameInfo = view.getGameInfo();
+      
+      ColorTheme EventColor = new DefaultColorTheme();
+      g.setColor(EventColor.getEventNDiceFontColor());
 
       switch(gameInfo){
         case DEFAULT:
@@ -264,6 +271,9 @@ private void drawBoard(Graphics2D g) {
       Rectangle2D diceRect = this.getDiceRectangle();
       BufferedImage diceImage = null;
       DiceState diceState = view.getDiceState();
+      ColorTheme diceColor = new DefaultColorTheme();
+      g.setColor(diceColor.getEventNDiceFontColor());
+
       switch (diceState) {
         case ROLE:
           diceImage = Inf101Graphics.loadImageFromResources("/dice.png");

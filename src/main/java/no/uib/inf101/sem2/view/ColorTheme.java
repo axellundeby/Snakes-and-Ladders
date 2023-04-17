@@ -39,4 +39,6 @@ public interface ColorTheme {
 
      Color getBoxColor();
 
+     Color getEventNDiceFontColor();
+
 }   

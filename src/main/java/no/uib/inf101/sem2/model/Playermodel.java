@@ -37,10 +37,10 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public Iterable<GridCell<Character>> getTilesOnBoard(){
         return this.board;
     }
-    @Override
-    public Iterable<GridCell<Character>> getPiece() {
-       return PlayerList.get(PlayerListIndex);
-    }
+    // @Override
+    // public Iterable<GridCell<Character>> getPiece() {
+    //    return PlayerList.get(PlayerListIndex);
+    // }
 
     @Override
     public DiceState getDiceState() {
@@ -234,20 +234,18 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     private void playerOnNextTile(){
         int PlayerRow = PlayerList.get(PlayerListIndex).getPos().row();
         int PlayerCol = PlayerList.get(PlayerListIndex).getPos().col();
-
         if(PlayerRow % 2 == 0){
             if(PlayerCol == 0){
-                movePlayer(1, -1);
+                movePlayer(1, 0);
             }
             movePlayer(0, -2);
         }
         else if(PlayerRow % 2 != 0){
             if(PlayerCol == 9){
-                movePlayer(1, 1);
+                movePlayer(0, 1);
             }
             movePlayer(0, 2);
         }
-
     }
 
     public boolean playerOnNextTileChecker(){
@@ -259,12 +257,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         
     }
 
-    public void cellOcipied(){
-        CellPosition pos = PlayerList.get(PlayerListIndex).getPos();
-        if(board.get(pos) != '-' && PlayerList.get(PlayerListIndex).getPlayerID() != PlayerList.get(PlayerListIndex).getPlayerID()){//eller seg selv
-            //hopper over den cellen, men teller det som et hopp på terningen
-        }
-    } 
 
     @Override
     public GameInfo getGameInfo() {

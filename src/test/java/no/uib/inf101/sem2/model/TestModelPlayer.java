@@ -13,24 +13,15 @@ import org.junit.jupiter.api.Test;
 import no.uib.inf101.sem2.grid.CellPosition;
 
 public class TestModelPlayer {
+ 
     @Test
-    public void SnakeTest(){
+    public void ladderTest(){
         Board board = new Board(20, 10);
         PlayerFactory factory = new PatternedPlayerFactory("P");
         Playermodel model = new Playermodel(board, factory, factory.getNext());
         //model.movePlayerTo(0, 1);//om en spiller flyttes til en slange skal den nye posisjonen være slangen sin hale
-        board.set(new CellPosition(0, 1), 'T');
-        model.SteppedOnSnake();
+        board.set(new CellPosition(0, 1), 'L');
+        model.SteppedOnLadder();
         assertTrue(board.get(new CellPosition(5, 0)) == 'P');
     }
-
-   //use model.steppedonladder() to test if the player is on a ladder
-
-  
-
-    @Test
-    public void movement(){
-
-    }
-    
 }

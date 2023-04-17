@@ -16,7 +16,7 @@ public class Main {
   public static void main(String[] args) {
     Board board = new Board(10,10); 
     PlayerFactory player = new StartPlayer();
-    Playermodel model = new Playermodel(board, player, player.getNext());
+    Playermodel model = new Playermodel(board, player);
     GridView view = new GridView(model);
     new ControllerMouseClicked(model, view);
   
