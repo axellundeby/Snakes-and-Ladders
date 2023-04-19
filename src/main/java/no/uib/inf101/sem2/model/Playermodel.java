@@ -1,5 +1,7 @@
 package no.uib.inf101.sem2.model;
 import java.util.List;
+import java.util.Random;
+
 import no.uib.inf101.sem2.grid.CellPosition;
 import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
@@ -7,12 +9,14 @@ import no.uib.inf101.sem2.grid.GridDimension;
 public class Playermodel implements ViewableModel, PlayerFactory{
     private Board board;
     private PlayerFactory factory;
+    private final Random random = new Random();
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameInActive;
     private GameInfo gameInfo = GameInfo.DEFAULT;
     private int PlayerListIndex = 0;
     private List<Player> PlayerList;
     private int amountOfplayers = 2;
+    private char overWrittenValue = '-';
 
     public Playermodel(Board board, PlayerFactory factory){
         this.board = board;
@@ -63,17 +67,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             diceState = DiceState.SIX;
         }
     }
-   
 
-    private void movePlayer(int Row, int Col) {
-        Player temp = PlayerList.get(PlayerListIndex);
-        board.set(temp.getPos(), '-');
-        Player ShapeCopy = temp.shiftedBy(Row, Col);
-        PlayerList.set(PlayerListIndex,ShapeCopy);
-        board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
-        
-    }
-    
     private void movePlayerTo(int MoveToRow, int MoveToCol) {
         Player temp = PlayerList.get(PlayerListIndex);
         board.set(temp.getPos(), '-');
@@ -81,41 +75,85 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         PlayerList.set(PlayerListIndex,ShapeCopy);
         board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
     }
+ 
+    private void movePlayer(int Row, int Col, boolean finished) {
+        Player temp = PlayerList.get(PlayerListIndex);
+        CellPosition pos = PlayerList.get(PlayerListIndex).getPos();    
+        board.set(pos, overWrittenValue);
+        Player ShapeCopy = temp.shiftedBy(Row, Col);
+        CellPosition newPos = new CellPosition(ShapeCopy.getPos().row(), ShapeCopy.getPos().col());
+        overWrittenValue = board.get(newPos);
+        
+        if (board.positionIsOnGrid(newPos)){
+            PlayerList.set(PlayerListIndex,ShapeCopy);
+            if(getPlayer(overWrittenValue) != -1 && finished){
+                stumpPlayer(getPlayer(overWrittenValue));
+            }   
+            board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
+        }
+    }
     
+   
+    private int getPlayer(char value){
+        for(int i = 0; i < PlayerList.size(); i++){
+            if(PlayerList.get(i).getPlayerID() == value){
+                return i;
+            }
+        }
+        return -1;
+    }
 
+    private void stumpPlayer(int playerIndex) {
+        int randomCol = random.nextInt(10);
+        int randomRow = random.nextInt(3)+7;
+        while(!board.get(new CellPosition(randomRow, randomCol)).equals('-')){
+            randomCol = random.nextInt(10);
+            randomRow = random.nextInt(3)+7;
+        }
+        int tempIndex = PlayerListIndex;
+        PlayerListIndex = playerIndex;
+        movePlayerTo(randomRow, tempIndex);
+        PlayerListIndex = tempIndex;
+        gameInfo = GameInfo.STUMP;
+        overWrittenValue = '-';
+
+    }
+
+    
     /**
      * This method moves the player right if the row is even and left if it is odd, if the player is on the edge of the board it moves the player up.
      */
-    public void PlayerJump() {
+    public void PlayerJump(boolean finished) {
         int PlayerRow = PlayerList.get(PlayerListIndex).getPos().row();
         int PlayerCol = PlayerList.get(PlayerListIndex).getPos().col();
+
         if(PlayerRow % 2 != 0){
             if (PlayerCol == 9){
-                PlayerOnEdge();
+                PlayerOnEdge(finished);
             }
             else{
-                movePlayerRight();
+                movePlayerRight(finished);
             }
         }
         else{
             if (PlayerCol == 0){
-                PlayerOnEdge();
+                PlayerOnEdge(finished);
             }
             else{
-                movePlayerLeft();
+                movePlayerLeft(finished);
             }
         }
     }
-    private void movePlayerRight() {
-        movePlayer(0, +1);
+    private void movePlayerRight(boolean finished) {
+        movePlayer(0, +1, finished);
     }
     
-    private void movePlayerLeft() {
-        movePlayer(0, -1);
+    private void movePlayerLeft(boolean finished) {
+        movePlayer(0, -1, finished);
     }
     
-    private void PlayerOnEdge(){       
-        movePlayer(-1,0);
+    private void PlayerOnEdge(boolean finished){       
+        movePlayer(-1,0, finished);
     }
 
 
@@ -232,85 +270,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     @Override
     public GameState getGamestate() {
         return gameState;
-    }
-
-    //funker ikke 
-    //om en spiller går på en annen spiller, flyttes den til en tilfeldig posisjon under rad 7
-    //sjekket at jeg ikke gikk på meg selv------- ja
-    //hvis det ligger en spiller som ikke er seg selv, flytt den spilleren til blabla, bruk en for loop for å hente alle spillere
-   
-    public void stumpPlayer() {
-        int randomrow = (int) (Math.random() * 3) + 7;
-        int randomCol = (int) (Math.random() * 10);
-        CellPosition pos = PlayerList.get(PlayerListIndex).getPos();
-        char value = board.get(pos);
-
-        Player playerOnTop = PlayerList.get(PlayerListIndex);
-        
-        if(value!= '-' && value != playerOnTop.getPlayerID()){
-            for (int i = 0; i < amountOfplayers; i++) {
-                if (PlayerList.get(i).getPlayerID() == value) { //flytt value player blabla
-                    Player playerToMove = PlayerList.get(i);
-                    playerToMove.setPos(randomrow, randomCol);
-                }
-            }
-            gameInfo = GameInfo.STUMP;
-        }
-    }
-
-
-    public boolean playerOnNextTileChecker(){
-        Player player = PlayerList.get(PlayerListIndex);
-        int row = player.getPos().row();
-        int col = player.getPos().col();
-        
-        CellPosition posRight = new CellPosition(row, col + 1);
-        char valueRight = board.get(posRight);
-
-        CellPosition posLeft = new CellPosition(row, col - 1);
-        char valueLeft = board.get(posLeft);
-
-        // CellPosition posEdgeLeft = new CellPosition(row +1 , col - 1);
-        // char valueEdgeLeft = board.get(posEdgeLeft);
-
-        // CellPosition posEdgeRight = new CellPosition(row + 1, col + 1);
-        // char valueEdgeRight = board.get(posEdgeRight);
-        if(row % 2 != 0 && valueRight != '-' && valueRight != player.getPlayerID() && col != 9){
-                // if (col == 8){
-                //     movePlayer(1, 1);
-            movePlayer(0, 2);
-       // }
-        }
-        else if (row % 2 == 0 && valueLeft != '-' && valueLeft != player.getPlayerID() && col != 0){
-                // if (col == 1){
-                //     movePlayer(1, -1);
-                // }
-            movePlayer(0, -2);
-        }
-        
-    
-        return false;
-
-        //         if(valueRight != '-' && valueRight != player.getPlayerID()){
-    //             if (col == 8){
-    //                 movePlayerRight();
-    //                 PlayerOnEdge();
-    //             }
-    //             movePlayer(0, 2);
-    //             return true;
-    //         }
-    //         else if(valueLeft != '-' && valueLeft != player.getPlayerID()){
-    //             if (col == 1){
-    //                 movePlayerLeft();
-    //                 PlayerOnEdge();
-    //             }
-    //             movePlayerLeft();
-    //             movePlayerLeft();
-    //             return true;
-    //         }
-    //     }
-    // else{
-    
     }
 
     @Override

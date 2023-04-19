@@ -11,6 +11,9 @@ import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
 import no.uib.inf101.sem2.view.GridView;
 
+
+
+
 public class ControllerMouseClicked implements MouseListener {
   private final Playermodel model;
   private final GridView view;
@@ -69,13 +72,7 @@ public class ControllerMouseClicked implements MouseListener {
   private void animateSingleStep() {
     GameState gameState = model.getGamestate();
     if (diceEyesToAnimate > 0) {
-      // if(model.playerOnNextTileChecker()){//dette går ikke
-      //   diceEyesToAnimate--;
-      // }
-      // else{
-        model.PlayerJump();
-        diceEyesToAnimate--;
-      //}
+        model.PlayerJump(--diceEyesToAnimate == 0 ? true : false);
       model.Winner();//feil her
     } else {
       model.SteppedOnSnake();
@@ -84,7 +81,6 @@ public class ControllerMouseClicked implements MouseListener {
       if (eyes<6){
         model.PlayerTurn();
       }
-      model.stumpPlayer();//noe gæli her, får ikke flyttet den under
       gameState = GameState.GameActive;
       animationTimer.stop();
     }

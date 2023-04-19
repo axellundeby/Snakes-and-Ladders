@@ -30,10 +30,8 @@ public class GridView extends JPanel {
   private boolean mouseIsInTheRectfour = false;
   private boolean mouseIsInTheRecthree = false;
   private boolean mouseIsInTheRectwo = false;
-  
   BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
-
-  
+    
   public GridView(ViewableModel view) {
         this.view = view;
         this.colorTheme = new DefaultColorTheme();
@@ -48,13 +46,13 @@ public class GridView extends JPanel {
   public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      if(view.getGamestate() == GameState.GameActive || view.getGamestate() == GameState.disbaleDice){//om spillet er aktivt
+      if(view.getGamestate() == GameState.GameActive || view.getGamestate() == GameState.disbaleDice){
         drawBoard(g2);
         drawDice(g2);
         drawEvent(g2);
       }
       
-      else if(view.getGamestate() == GameState.GameInActive){//om spillet ikke er aktivt
+      else if(view.getGamestate() == GameState.GameInActive){
         startGame(g2);
         drawFourPlayer(g2);
         drawThreePlayer(g2);
@@ -62,8 +60,6 @@ public class GridView extends JPanel {
         drawStartGame(g2);
       }
     }
-
-    //startscreen, start knapp, regler, kanskje antall spillere
     
   private void startGame(Graphics2D g) {
       ColorTheme StartColor = new DefaultColorTheme();
@@ -75,8 +71,6 @@ public class GridView extends JPanel {
 
       Inf101Graphics.drawCenteredString(g, "Axels fantastiske stigespill",0, 0, this.getWidth(), 60); 
     }
-
-//når man trykker innen for firkanten henter den gjør den spillet aktivt, spillet må starte innaktivt
 
 /**
 @return A RoundRectangle2D object representing the start box on the game board.
