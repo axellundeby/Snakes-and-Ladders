@@ -39,10 +39,19 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return diceState;
     }
 
+    /**
+     * This method updates the state of the game based on the current state of the game.
+     * @param gameState the current state of the game.
+     */
+
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * This method updates the amount of players.
+     * @param amountOfplayers a integer that represents the amount of players.
+     */
 
     public void setAmountOfPlayers(int amountOfplayers) {
         this.amountOfplayers = amountOfplayers;
@@ -140,11 +149,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         }
     }
     
-    /**
-     * returns the index of the player in the playerlist, if the player is not in the list it returns -1
-     * @param value, a char value that represents a player
-     * @return
-     */
    
     private int getPlayer(char value){
         for(int i = 0; i < amountOfplayers; i++){
@@ -155,11 +159,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return -1;
     }
 
-    /**
-     * This method moves a player to a random pos on the board.
-     * @param playerIndex, the index of the player in the playerlist
-     */
-
+   
     private void stumpPlayer(int playerIndex) {
         int randomCol = random.nextInt(10);
         int randomRow = random.nextInt(3)+7;
@@ -279,6 +279,10 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             gameInfo = GameInfo.LADDER;
         }
     }
+
+    /**
+     * updates the gameinfo enum to default.
+     */
 
     public void updateGameinfo(){
         gameInfo = GameInfo.DEFAULT;

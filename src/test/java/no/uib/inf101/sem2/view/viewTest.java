@@ -3,15 +3,19 @@ package no.uib.inf101.sem2.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import org.junit.jupiter.api.Test;
 
+import no.uib.inf101.sem2.grid.CellPosition;
+import no.uib.inf101.sem2.grid.GridDimension;
+import no.uib.inf101.sem2.model.Board;
 
 public class viewTest{
-
-    
+   
+  
     @Test
     public void testGetCellColor() {
         DefaultColorTheme startPlayer = new DefaultColorTheme();
@@ -26,7 +30,14 @@ public class viewTest{
         });
     }
 
-    
+    @Test
+    public void sanityTest() {
+      GridDimension gd = new Board(3, 4);
+      CellPositionToPixelConverter converter = new CellPositionToPixelConverter(new Rectangle2D.Double(29, 29, 340, 240), gd, 30);
+      Ellipse2D expected = new Ellipse2D.Double(214, 129, 47.5, 40);
+      assertEquals(expected, converter.getBoundsForCell(new CellPosition(1, 2)));
+    }
+  
 
 }
 

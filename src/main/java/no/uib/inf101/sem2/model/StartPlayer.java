@@ -29,6 +29,7 @@ public class StartPlayer implements PlayerFactory {
     }   
     }
 
+    @Override
     public List<Player> getPlayerList() {
         List<Player> players = new ArrayList<Player>();
         for (int i = 0; i < 4; i++) {
@@ -36,7 +37,8 @@ public class StartPlayer implements PlayerFactory {
         }
         return players;
     }
-
+    
+    @Override
     public boolean hasMorePlayers() {
         return !playerSymbols.isEmpty();
     }

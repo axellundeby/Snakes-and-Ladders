@@ -21,8 +21,6 @@ public class ControllerMouseClicked implements MouseListener {
   private final GameSong song = new GameSong();
   private int eyes = 0;
 
-  
-  //hvorfor har jeg interface her? enum fungerer ikke
   public ControllerMouseClicked(Playermodel model, GridView view) {
     this.model = model;
     this.view = view;
