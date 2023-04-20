@@ -37,8 +37,15 @@ public interface ColorTheme {
      */
      Color getStartFontColor();
 
+      /**
+     @return The color of the box menu
+     */
      Color getBoxColor();
 
+      /**
+     @return The color of the font used when a event is triggered or a dice is rolled
+     */
+    
      Color getEventNDiceFontColor();
 
 }   

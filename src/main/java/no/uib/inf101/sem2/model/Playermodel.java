@@ -42,6 +42,36 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
+
+
+    public void setAmountOfPlayers(int amountOfplayers) {
+        this.amountOfplayers = amountOfplayers;
+    }
+
+    @Override
+    public GameState getGamestate() {
+        return gameState;
+    }
+
+    @Override
+    public GameInfo getGameInfo() {
+        return gameInfo;
+    }
+
+    @Override
+    public Player getNext() {
+        return getNext();
+    }
+    @Override
+    public boolean hasMorePlayers() {
+        return hasMorePlayers();
+    }
+
+    @Override
+    public List<Player> getPlayerList() {
+        return PlayerList; 
+    }
+    
    /**
     * This method updates the state of the dice based on the number of eyes that show up after rolling.
     * @param eyes  An integer value between 1 and 6, which represents the number of eyes that show up on the rolled dice.
@@ -69,11 +99,28 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     }
 
     private void movePlayerTo(int MoveToRow, int MoveToCol) {
-        Player temp = PlayerList.get(PlayerListIndex);
-        board.set(temp.getPos(), '-');
-        Player ShapeCopy = temp.setPos(MoveToRow, MoveToCol);
-        PlayerList.set(PlayerListIndex,ShapeCopy);
-        board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
+        Player currentPlayer = PlayerList.get(PlayerListIndex);
+        CellPosition currentPos = currentPlayer.getPos();
+        board.set(currentPos, '-');
+        
+        Player updatedPlayer = currentPlayer.setPos(MoveToRow, MoveToCol);
+        CellPosition newPos = updatedPlayer.getPos();
+        char cellValue = board.get(newPos);
+        
+        if (board.positionIsOnGrid(newPos)) {
+            if (cellValue == '-') {
+                PlayerList.set(PlayerListIndex, updatedPlayer);
+                board.set(newPos, updatedPlayer.getPlayerID());
+            } else {
+                // Stump the player at the target cell
+                int stumpedPlayerIndex = getPlayer(cellValue);
+                if (stumpedPlayerIndex != -1) {
+                    stumpPlayer(stumpedPlayerIndex);
+                    PlayerList.set(PlayerListIndex, updatedPlayer);
+                    board.set(newPos, updatedPlayer.getPlayerID());
+                }
+            }
+        }
     }
  
     private void movePlayer(int Row, int Col, boolean finished) {
@@ -82,26 +129,36 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         board.set(pos, overWrittenValue);
         Player ShapeCopy = temp.shiftedBy(Row, Col);
         CellPosition newPos = new CellPosition(ShapeCopy.getPos().row(), ShapeCopy.getPos().col());
-        overWrittenValue = board.get(newPos);
+        overWrittenValue = board.get(newPos);//setter overwrittenValue til valuen til spilleren som står på plassen
         
         if (board.positionIsOnGrid(newPos)){
             PlayerList.set(PlayerListIndex,ShapeCopy);
-            if(getPlayer(overWrittenValue) != -1 && finished){
-                stumpPlayer(getPlayer(overWrittenValue));
+            if(getPlayer(overWrittenValue) != -1 && finished){//om flyttingen er ferdig og det er en annen spiller på plassen
+                stumpPlayer(getPlayer(overWrittenValue));//the player under is stumped
             }   
             board.set(ShapeCopy.getPos(), ShapeCopy.getPlayerID());
         }
     }
     
+    /**
+     * returns the index of the player in the playerlist, if the player is not in the list it returns -1
+     * @param value, a char value that represents a player
+     * @return
+     */
    
     private int getPlayer(char value){
-        for(int i = 0; i < PlayerList.size(); i++){
+        for(int i = 0; i < amountOfplayers; i++){
             if(PlayerList.get(i).getPlayerID() == value){
                 return i;
             }
         }
         return -1;
     }
+
+    /**
+     * This method moves a player to a random pos on the board.
+     * @param playerIndex, the index of the player in the playerlist
+     */
 
     private void stumpPlayer(int playerIndex) {
         int randomCol = random.nextInt(10);
@@ -116,12 +173,12 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         PlayerListIndex = tempIndex;
         gameInfo = GameInfo.STUMP;
         overWrittenValue = '-';
-
     }
 
     
     /**
-     * This method moves the player right if the row is even and left if it is odd, if the player is on the edge of the board it moves the player up.
+     *  This method moves the player right if the row is even and left if it is odd, if the player is on the edge of the board it moves the player up.
+     * @param finished checks the jumping is finished or not
      */
     public void PlayerJump(boolean finished) {
         int PlayerRow = PlayerList.get(PlayerListIndex).getPos().row();
@@ -262,33 +319,4 @@ public class Playermodel implements ViewableModel, PlayerFactory{
             PlayerListIndex++;
         }
     }
-
-    public void setAmountOfPlayers(int amountOfplayers) {
-        this.amountOfplayers = amountOfplayers;
-    }
-
-    @Override
-    public GameState getGamestate() {
-        return gameState;
-    }
-
-    @Override
-    public GameInfo getGameInfo() {
-        return gameInfo;
-    }
-
-    @Override
-    public Player getNext() {
-        return getNext();
-    }
-    @Override
-    public boolean hasMorePlayers() {
-        return hasMorePlayers();
-    }
-
-    @Override
-    public List<Player> getPlayerList() {
-        return PlayerList; 
-    }
-    
 }

@@ -7,7 +7,7 @@ import no.uib.inf101.sem2.grid.CellPosition;
 
 public class StartPlayer implements PlayerFactory {
     int playerIndex=0;
-    private List<Character> playerSymbols = new ArrayList<Character>();
+    List<Character> playerSymbols = new ArrayList<Character>();
 
     public StartPlayer() {
         playerSymbols.add('P');

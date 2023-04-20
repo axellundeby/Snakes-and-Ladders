@@ -11,9 +11,6 @@ import no.uib.inf101.sem2.model.Playermodel;
 import no.uib.inf101.sem2.model.RandomThrow;
 import no.uib.inf101.sem2.view.GridView;
 
-
-
-
 public class ControllerMouseClicked implements MouseListener {
   private final Playermodel model;
   private final GridView view;
