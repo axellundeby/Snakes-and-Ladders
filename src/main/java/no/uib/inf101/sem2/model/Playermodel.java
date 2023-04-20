@@ -138,9 +138,9 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         board.set(pos, overWrittenValue);
         Player ShapeCopy = temp.shiftedBy(Row, Col);
         CellPosition newPos = new CellPosition(ShapeCopy.getPos().row(), ShapeCopy.getPos().col());
-        overWrittenValue = board.get(newPos);//setter overwrittenValue til valuen til spilleren som står på plassen
         
         if (board.positionIsOnGrid(newPos)){
+            overWrittenValue = board.get(newPos);//setter overwrittenValue til valuen til spilleren som står på plassen
             PlayerList.set(PlayerListIndex,ShapeCopy);
             if(getPlayer(overWrittenValue) != -1 && finished){//om flyttingen er ferdig og det er en annen spiller på plassen
                 stumpPlayer(getPlayer(overWrittenValue));//the player under is stumped
@@ -304,7 +304,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     /**
      * this method makes another player appear if there are no more players left.
      */
-    public void PlayerAppear(){
+    private void PlayerAppear(){
         if(!factory.hasMorePlayers()){
             Player CurrentPlayerTemp = factory.getNext();
             PlayerList.set(PlayerListIndex,CurrentPlayerTemp);
@@ -315,6 +315,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
      * This method chenges the players turn, by changing the index of the player in the playerlist.
      */
     public void PlayerTurn(){
+        PlayerAppear();
         if (PlayerListIndex >= amountOfplayers - 1) {
             PlayerListIndex = 0;
 

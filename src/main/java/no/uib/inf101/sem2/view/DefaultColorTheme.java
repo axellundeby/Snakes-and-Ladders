@@ -9,11 +9,11 @@ public class DefaultColorTheme implements ColorTheme{
     @Override
     public Color getCellColor(char c) {
       Color color = switch(c) {
-        case 'P' -> Color.BLACK;//spiller
-        case 'Q' -> Color.cyan;//spiller
-        case 'B' -> Color.PINK;//spiller
-        case 'K' -> Color.yellow;//spiller
-        //.... fyll ut dine favorittfarger
+        case 'P' -> Color.BLACK;
+        case 'Q' -> Color.cyan;
+        case 'B' -> Color.PINK;
+        case 'K' -> Color.yellow;
+     
         case '-' -> new Color(0, 0, 0, 37);
         default -> throw new IllegalArgumentException(
             "No available color for '" + c + "'");

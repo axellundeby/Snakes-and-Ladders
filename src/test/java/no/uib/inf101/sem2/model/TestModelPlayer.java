@@ -18,8 +18,9 @@ public class TestModelPlayer {
         Board board = new Board(10,10); 
         PlayerFactory player = new StartPlayer();
         Playermodel model = new Playermodel(board, player);
-        
-        board.set(new CellPosition(0, 1), 'P');//dette går ikke 
+
+        Player moved = model.getPlayerList().get(0).setPos(0, 1);
+        model.getPlayerList().set(0, moved);
         model.SteppedOnSnake();
         assertTrue(board.get(new CellPosition(5, 0)) == 'P');
     }
@@ -30,7 +31,9 @@ public class TestModelPlayer {
         PlayerFactory player = new StartPlayer();
         Playermodel model = new Playermodel(board, player);
         
-        board.set(new CellPosition(9, 3), 'P');//dette går ikke 
+        board.set(new CellPosition(9, 3), 'P');
+        Player moved = model.getPlayerList().get(0).setPos(9, 3);
+        model.getPlayerList().set(0, moved);
         model.SteppedOnLadder();
         assertTrue(board.get(new CellPosition(7, 4)) == 'P');
     }
@@ -60,25 +63,22 @@ public class TestModelPlayer {
 
     }
 
-    //testwinner
-
-    public void testWinner(){
-
-    }
-
-    //PlayerAppear
-
     @Test
-    public void testPlayerAppear() {
+    public void testWinner(){
         Board board = new Board(10,10); 
         PlayerFactory player = new StartPlayer();
         Playermodel model = new Playermodel(board, player);
-        model.PlayerAppear();
-        assertEquals(model.getDiceState(), DiceState.ONE);
+
+        Player moved = model.getPlayerList().get(0).setPos(0, 0);
+        model.getPlayerList().set(0, moved);
+        model.Winner();
+        
+        assertEquals(GameInfo.WINNER, model.getGameInfo());
+        assertEquals(GameState.disbaleDice, model.getGamestate());
+
     }
 
-    //PlayerTurn funker ikke 
-        @Test
+    @Test
         public void testPlayerTurn() {
 
         Board board = new Board(10,10); 
@@ -90,12 +90,13 @@ public class TestModelPlayer {
         playerList.add(new Player('Q', null));
         playerList.add(new Player('B', null));
         playerList.add(new Player('K', null));
-          
+        model.setAmountOfPlayers(4);    
         int initialIndex = model.getCurrentPlayerIndex();
         model.PlayerTurn();
         model.PlayerTurn();
         model.PlayerTurn();
+        model.PlayerTurn();
         int newIndex = model.getCurrentPlayerIndex();
-        assertEquals(playerList.get(initialIndex+3), playerList.get(newIndex));
+        assertEquals(initialIndex, newIndex);
         }
 }

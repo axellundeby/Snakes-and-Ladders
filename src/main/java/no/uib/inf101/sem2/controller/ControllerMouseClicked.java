@@ -73,7 +73,7 @@ public class ControllerMouseClicked implements MouseListener {
     } else {
       model.SteppedOnSnake();
       model.SteppedOnLadder();
-      model.PlayerAppear();
+      //model.PlayerAppear();
       if (eyes<6){
         model.PlayerTurn();
       }
