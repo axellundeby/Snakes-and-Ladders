@@ -18,7 +18,7 @@ public final class Player {
         @return a new Player object that is shifted by the given deltaRow and deltaCol values.
     */
     public Player shiftedBy(int deltaRow, int deltaCol) {
-        CellPosition pos = new CellPosition(this.pos.row() + deltaRow, this.pos.col() + deltaCol);//skriv test
+        CellPosition pos = new CellPosition(this.pos.row() + deltaRow, this.pos.col() + deltaCol);
         Player ShapeCopy = new Player(PlayerID, pos);
         return ShapeCopy;
     }
@@ -44,7 +44,7 @@ public final class Player {
     @return a new Player object with the new position.
     */
     public Player setPos(int newRow, int newCol) {
-        CellPosition pos = new CellPosition(newRow, newCol);////skriv test
+        CellPosition pos = new CellPosition(newRow, newCol);
         Player ShapeCopy = new Player(PlayerID, pos);
         return ShapeCopy;
     }

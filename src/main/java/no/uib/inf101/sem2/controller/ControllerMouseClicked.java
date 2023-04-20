@@ -43,7 +43,8 @@ public class ControllerMouseClicked implements MouseListener {
       eyes = randomThrow.rollDice();
       model.updateDiceNumber(eyes);
       diceEyesToAnimate = eyes;
-      gameState = GameState.ANIMATE;
+      //gameState = GameState.ANIMATE;
+      model.setGameState(GameState.ANIMATE);
       animationTimer.start();
       view.repaint();
     }
@@ -65,10 +66,10 @@ public class ControllerMouseClicked implements MouseListener {
   }
 
   private void animateSingleStep() {
-    GameState gameState = model.getGamestate();
+
     if (diceEyesToAnimate > 0) {
         model.PlayerJump(--diceEyesToAnimate == 0 ? true : false);
-      model.Winner();//feil her
+      model.Winner();
     } else {
       model.SteppedOnSnake();
       model.SteppedOnLadder();
@@ -76,7 +77,7 @@ public class ControllerMouseClicked implements MouseListener {
       if (eyes<6){
         model.PlayerTurn();
       }
-      gameState = GameState.GameActive;
+      model.setGameState(GameState.GameActive);
       animationTimer.stop();
     }
     view.repaint();

@@ -304,7 +304,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     /**
      * this method makes another player appear if there are no more players left.
      */
-    //denne metoden er det også krøll i tror jeg, trenger jeg den om jeg har amout of players?
     public void PlayerAppear(){
         if(!factory.hasMorePlayers()){
             Player CurrentPlayerTemp = factory.getNext();
@@ -322,5 +321,12 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         } else {
             PlayerListIndex++;
         }
+    }
+/**
+ * This method returns the current player index.
+ * @return player index
+ */
+    public int getCurrentPlayerIndex() {
+        return PlayerListIndex;
     }
 }
