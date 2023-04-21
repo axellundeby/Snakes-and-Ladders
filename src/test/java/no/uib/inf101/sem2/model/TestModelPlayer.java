@@ -58,9 +58,18 @@ public class TestModelPlayer {
     }
 
     //test playerJump.. hjelp
-
+    @Test
     public void testPlayerJump(){
-
+        Board board = new Board(10,10); 
+        PlayerFactory player = new StartPlayer();
+        Playermodel model = new Playermodel(board, player);          
+        board.set(new CellPosition(9, 8), 'P');
+        Player moved = model.getPlayerList().get(0).setPos(9, 8);
+        model.getPlayerList().set(0, moved);
+        model.PlayerJump(true);//player goes right 
+        model.PlayerJump(true);//player goes up
+        model.PlayerJump(true);//player goes left
+        assertTrue(board.get(new CellPosition(8, 8)) == 'P');
     }
 
     @Test
