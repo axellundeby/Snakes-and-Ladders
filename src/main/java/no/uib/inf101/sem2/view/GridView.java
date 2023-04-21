@@ -235,7 +235,7 @@ private void drawBoard(Graphics2D g) {
           break;
         case WINNER:
         eventImage = Inf101Graphics.loadImageFromResources("/pokal.png");
-        Inf101Graphics.drawCenteredString(g, "Seier!",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
+        Inf101Graphics.drawCenteredString(g, "Seier! Spillet er over ,terningen kan ikke rulles mer",getWidth(), getHeight()-55, this.getWidth() - getWidth() * 2,10);
           break;
       }
       double scale = (eventRect.getHeight() - 1) / eventImage.getHeight();
