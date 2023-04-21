@@ -13,7 +13,7 @@ import javax.sound.midi.Sequencer;
  * </code>
  */
 public class GameSong implements Runnable {
-    private static final String TETRISMUSIC = "True.mid";
+    private static final String TETRISMUSIC = "Careless-Whisper.mid";
     private Sequencer sequencer;
 
     @Override
