@@ -3,7 +3,7 @@ package no.uib.inf101.sem2.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -46,17 +46,21 @@ public class startPlayerTest {
         assertEquals(4, players.size());
         assertEquals('P', players.get(0).getPlayerID());
         assertEquals(new CellPosition(9, 0), players.get(0).getPos());
+
         assertEquals('B', players.get(1).getPlayerID());
         assertEquals(new CellPosition(9, 0), players.get(1).getPos());
+
         assertEquals('Q', players.get(2).getPlayerID());
         assertEquals(new CellPosition(9, 0), players.get(2).getPos());
+
         assertEquals('K', players.get(3).getPlayerID());
         assertEquals(new CellPosition(9, 0), players.get(3).getPos());
-    
-        for (Player player : players) {
-            startPlayer.playerSymbols.remove(Character.valueOf(player.getPlayerID()));
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            players.remove(player);
         }
-        assertFalse(startPlayer.hasMorePlayers());
+        assertTrue(startPlayer.hasMorePlayers());
     }
     
 }
