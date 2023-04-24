@@ -69,6 +69,8 @@ public class TestModelPlayer {
         model.PlayerJump(true);//player goes right 
         model.PlayerJump(true);//player goes up
         model.PlayerJump(true);//player goes left
+        
+
         assertTrue(board.get(new CellPosition(8, 8)) == 'P');
     }
 

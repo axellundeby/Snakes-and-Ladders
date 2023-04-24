@@ -4,7 +4,7 @@ import no.uib.inf101.sem2.grid.CellPosition;
 
 public final class Player {
     private final char PlayerID;
-    private CellPosition pos;
+    private final CellPosition pos;
     
     public Player(char PlayerID, CellPosition pos) {
         this.PlayerID = PlayerID;

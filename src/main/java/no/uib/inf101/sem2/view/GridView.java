@@ -30,7 +30,7 @@ public class GridView extends JPanel {
   private boolean mouseIsInTheRectfour = false;
   private boolean mouseIsInTheRecthree = false;
   private boolean mouseIsInTheRectwo = false;
-  BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
+  private final BufferedImage boardImage = Inf101Graphics.loadImageFromResources("/boardPicture.jpeg");
     
   public GridView(ViewableModel view) {
         this.view = view;

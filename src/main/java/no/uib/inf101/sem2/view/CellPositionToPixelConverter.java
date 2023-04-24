@@ -8,9 +8,9 @@ import no.uib.inf101.sem2.grid.GridDimension;
 
 
 public class CellPositionToPixelConverter {
-  Rectangle2D box;
-  GridDimension gd;
-  double margin;
+private final Rectangle2D box;
+private final GridDimension gd;
+private final double margin;
 
   public CellPositionToPixelConverter(Rectangle2D box, GridDimension gd, double margin){
     this.box=box;
