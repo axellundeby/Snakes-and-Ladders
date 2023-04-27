@@ -55,11 +55,6 @@ public class startPlayerTest {
         assertEquals('K', players.get(3).getPlayerID());
         assertEquals(new CellPosition(9, 0), players.get(3).getPos());
 
-        for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            players.remove(player);
-        }
-        assertTrue(startPlayer.hasMorePlayers());
     }
     
 }

@@ -65,15 +65,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         return gameInfo;
     }
 
-    @Override
-    public Player getNext() {
-        return getNext();
-    }
-    @Override
-    public boolean hasMorePlayers() {
-        return hasMorePlayers();
-    }
-
+   
     @Override
     public List<Player> getPlayerList() {
         return PlayerList; 

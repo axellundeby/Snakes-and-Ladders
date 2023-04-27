@@ -16,7 +16,12 @@ public class StartPlayer implements PlayerFactory {
         playerSymbols.add('K');
     }
 
-    @Override
+    /**
+        Retrieves the next player in the player order.
+        If there are no more players in the order, returns null.
+        @return The next player or null if there are no more players.
+    */
+
     public Player getNext() {
         if (playerIndex >= playerSymbols.size()) {
             return null;
@@ -36,10 +41,5 @@ public class StartPlayer implements PlayerFactory {
             players.add(getNext());
         }
         return players;
-    }
-    
-    @Override
-    public boolean hasMorePlayers() {
-        return !playerSymbols.isEmpty();
     }
 }
