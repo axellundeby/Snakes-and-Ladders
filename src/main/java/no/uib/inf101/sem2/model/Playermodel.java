@@ -301,21 +301,7 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         }
     }
 
-    /**
-     * this method makes another player appear if there are no more players left.
-     */
-    private void PlayerAppear(){
-        if(!factory.hasMorePlayers()){
-            Player CurrentPlayerTemp = factory.getNext();
-            PlayerList.set(PlayerListIndex,CurrentPlayerTemp);
-        }
-    }
- 
-    /**
-     * This method chenges the players turn, by changing the index of the player in the playerlist.
-     */
     public void PlayerTurn(){
-        PlayerAppear();
         if (PlayerListIndex >= amountOfplayers - 1) {
             PlayerListIndex = 0;
 
