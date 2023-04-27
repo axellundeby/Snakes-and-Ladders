@@ -8,7 +8,6 @@ import no.uib.inf101.sem2.grid.GridDimension;
 
 public class Playermodel implements ViewableModel, PlayerFactory{
     private Board board;
-    private PlayerFactory factory;
     private final Random random = new Random();
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameInActive;
@@ -20,7 +19,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
 
     public Playermodel(Board board, PlayerFactory factory){
         this.board = board;
-        this.factory = factory;
         this.PlayerList = factory.getPlayerList(); 
     }
 
