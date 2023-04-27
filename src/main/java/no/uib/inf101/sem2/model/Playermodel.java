@@ -7,7 +7,7 @@ import no.uib.inf101.sem2.grid.GridCell;
 import no.uib.inf101.sem2.grid.GridDimension;
 
 public class Playermodel implements ViewableModel, PlayerFactory{
-    private Board board;
+    private final Board board;
     private final Random random = new Random();
     private DiceState diceState = DiceState.ROLE;
     private GameState gameState = GameState.GameInActive;
