@@ -55,6 +55,14 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         this.amountOfplayers = amountOfplayers;
     }
 
+    /**
+     * updates the gameinfo enum to default.
+     */
+
+     public void updateGameinfo(){
+        gameInfo = GameInfo.DEFAULT;
+    }
+
     @Override
     public GameState getGamestate() {
         return gameState;
@@ -69,6 +77,14 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     @Override
     public List<Player> getPlayerList() {
         return PlayerList; 
+    }
+
+    /**
+     * This method returns the current player index.
+     * @return player index
+     */
+    public int getCurrentPlayerIndex() {
+        return PlayerListIndex;
     }
     
    /**
@@ -271,14 +287,6 @@ public class Playermodel implements ViewableModel, PlayerFactory{
     }
 
     /**
-     * updates the gameinfo enum to default.
-     */
-
-    public void updateGameinfo(){
-        gameInfo = GameInfo.DEFAULT;
-    }
-
-    /**
      * this method checks if the player is out of the grid if so, the player wins.
      */
 
@@ -298,12 +306,5 @@ public class Playermodel implements ViewableModel, PlayerFactory{
         } else {
             PlayerListIndex++;
         }
-    }
-/**
- * This method returns the current player index.
- * @return player index
- */
-    public int getCurrentPlayerIndex() {
-        return PlayerListIndex;
     }
 }
